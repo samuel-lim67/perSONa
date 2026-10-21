@@ -23,18 +23,36 @@ class Player(Character):
         self.cursp = cursp
         self.personas = personas
 
-    def check_spcost(self, cost):
+    def use_skill(self, skill):
+        cost = skill.cost
         if self.cursp < cost:
-            return False
-        elif self.cursp >= cost:
-            return True
-        else:
-            return None
+            print("Not enough Skill Points!")
+            return
+
+        self.cursp -= cost
+        print(f"{self.name} used {skill.name}. It did {skill.effect} damage!")
 
 
-MainCharacter = Character("Prog", 300, 150, 20)
-print(MainCharacter.defense)
 
+MainCharacter = Player("Prog", 300, 150, 20, 100, 100, [])
+print(MainCharacter.cursp)
+
+#FIRE
 Agi = Skill("Fire", "Agi", 3, 40, 1)
+#ICE
 Bufu = Skill("Ice", "Bufu", 4, 40, 1, "Freeze", 0.15)
+#ELECTRIC
+Zio = Skill("Electric", "Zio", 4, 40, 2, "Shock", 0.15)
+#WIND
+Garu = Skill("Wind", "Garu", 3, 40, 1)
+#LIGHT
+Kouha = Skill("Light", "Kouha", 4, 60, 1)
+#DARK
+Eiha = Skill("Dark", "Eiha", 4, 60, 1)
+#ALMIGHTY
+Megido = Skill("Almighty", "Megido", 20, 170, 4)
 print(Agi.name, Agi.cost, Agi.element, Agi.effect, Agi.targets)
+
+MainCharacter.use_skill(Agi)
+
+print(MainCharacter.cursp)
