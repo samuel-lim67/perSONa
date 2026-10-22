@@ -1,15 +1,4 @@
-from classes import Character, Player, Skill
-import random
-
-#MainCharacter will use the Player class instead of jsut character so they have SP and Personas
-player = Player(name="Prog", maxhp=300, currenthp=150, defense=20, maxsp=100, cursp=100, personas=[])
-
-#sample enemy
-enemy = Character(name="Shadow Shadow", maxhp=200, currenthp=200, defense=10, maxsp= 200, cursp= 100, personas = [])
-
-#create some skills
-Agi = Skill("Fire", "Agi", 3, 40, 1)
-Bufu = Skill("Ice", "Bufu", 4, 40, 1, "Freeze", 0.15)
+from classes import Character, Player, Persona
 
 def get_agility(character):
   return character.equipped_persona.agility
