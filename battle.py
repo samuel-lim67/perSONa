@@ -1,4 +1,5 @@
 from classes import Character, Player, Persona
+import random
 
 def get_agility(character):
   return character.equipped_persona.agility
