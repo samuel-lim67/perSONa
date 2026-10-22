@@ -11,28 +11,29 @@ class Skill:
 
 
 class Character:
-    def __init__(self, name, maxhp, currenthp, defense):
+    def __init__(self, name, maxhp, currenthp, defense, maxsp, cursp, personas = []):
         self.name = name
         self.maxhp = maxhp
         self.curhp = currenthp
         self.defense = defense
-
-class Player(Character):
-    def __init__(self, name, maxhp, currenthp, defense, maxsp, cursp, personas):
-        super().__init__(name, maxhp, currenthp, defense)
-
         self.maxsp = maxsp
         self.cursp = cursp
         self.personas = personas
+
+class Player(Character):
+    def __init__(self, name, maxhp, currenthp, defense, maxsp, cursp, personas = []):
+        super().__init__(name, maxhp, currenthp, defense, maxsp, cursp, personas)
+
+
 
     def use_skill(self, skill):
         cost = skill.cost
         if self.cursp < cost:
             print("Not enough Skill Points!")
-            return
+            return False
 
-        self.cursp -= cost
-        print(f"{self.name} used {skill.name}. It did {skill.effect} damage!")
+        else:
+            return True
 
     def use_random_skill(self, persona):
         skills = persona.skills
@@ -40,20 +41,20 @@ class Player(Character):
         cost = random_skill.cost
         if self.cursp < cost:
             print("Not enough Skill Points!")
-            return
+            return False
 
-        self.cursp -= cost
-        print(f"{self.name} used {random_skill.name}. It did {random_skill.effect} damage!")
+        else:
+            return True
 
 class Persona:
-    def __init__(self, name, skills, affinity, strength, magic, endurance, ability, luck):
+    def __init__(self, name, skills, affinity, strength, magic, endurance, agility, luck):
         self.name = name
         self.skills = skills
         self.affinity = affinity
         self.strength = strength
         self.magic = magic
         self.endurance = endurance
-        self.ability = ability
+        self.agility = agility
         self.luck = luck
 
 #FIRE
@@ -70,20 +71,10 @@ Kouha = Skill("Light", "Kouha", 4, 60, 1)
 Eiha = Skill("Dark", "Eiha", 4, 60, 1)
 #ALMIGHTY
 Megido = Skill("Almighty", "Megido", 20, 170, 4)
-print(Agi.name, Agi.cost, Agi.element, Agi.effect, Agi.targets)
 
-
-
-Orpheus = Persona("Orpheus", [Agi, Megido], {"Fire": "normal","Ice": "weak", "Electric": "normal"}, 8, 12, 7, 10, 6)
+Orpheus = Persona("Orpheus", [Agi], {"Fire": "resist", "Electric": "weak", "Dark": "weak"}, 2, 2, 2, 3, 2)
+Arsene = Persona("Arsene", [Eiha], {"Ice": "weak","Light": "weak", "Dark": "resist"}, 2, 2, 2, 3, 1)
+Izanagi = Persona("Izanagi", [Zio], {"Electric": "resist", "Wind": "weak", "Dark": "null"}, 3, 2, 2, 3, 2)
 
 MainCharacter = Player("Prog", 300, 150, 20, 100, 100, [Orpheus])
 
-print(MainCharacter.cursp)
-
-MainCharacter.use_skill(Agi)
-
-print(MainCharacter.cursp)
-
-MainCharacter.use_random_skill(Orpheus)
-
-print(MainCharacter.cursp)
