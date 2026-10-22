@@ -76,5 +76,7 @@ Orpheus = Persona("Orpheus", [Agi], {"Fire": "resist", "Electric": "weak", "Dark
 Arsene = Persona("Arsene", [Eiha], {"Ice": "weak","Light": "weak", "Dark": "resist"}, 2, 2, 2, 3, 1)
 Izanagi = Persona("Izanagi", [Zio], {"Electric": "resist", "Wind": "weak", "Dark": "null"}, 3, 2, 2, 3, 2)
 
-MainCharacter = Player("Prog", 300, 150, 20, 100, 100, [Orpheus])
+Cerberus = Persona("Cerberus",[Agi, Eiha, Megido],{"Ice": "weak", "Light": "null", "Dark": "resist"},25, 24, 21, 29, 19)
+
+
 

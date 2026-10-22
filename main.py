@@ -2,7 +2,8 @@ from classes import Character, Player, Skill, Orpheus, Arsene, Izanagi
 from battle import battle_loop
 from selection import character_selector
 
-MainCharacter = Player("Prog", 300, 150, 20, 100, 100, [])
+MainCharacter = Player("Prog", 300, 300, 20, 100, 100, [Orpheus])
+Enemy = Character("TestDummy1", 200, 200, 20, 100 ,100, [Cerberus])
 starting_characters = [Orpheus, Arsene, Izanagi]
 def intermission():
   progress_game = input(f"""
@@ -16,21 +17,54 @@ Are you ready to enter the next battle?
     while True:
       menu = input(f"""
 What would you like to do?
-1 - Inspect
-2 - Use Items
-3 - Next Battle
+1 - Inspect {MainCharacter.name}
+2 - Inspect Personas
+3 - Use Items
+4 - Next Battle
 """)
-      if menu == "1":
+      if menu == "1": #inspects the player themselves
         print(f"""
 Name: {MainCharacter.name}
 HP: {MainCharacter.curhp}/{MainCharacter.maxhp}
 Skill Points: {MainCharacter.cursp}/{MainCharacter.maxsp}
 Personas: {', '.join(persona.name for persona in MainCharacter.personas)}""")
 
+      elif menu == "2": #inspect personas
+        for index, persona in enumerate(MainCharacter.personas):
+            print(f"{index+1}. {persona.name}")
+        try:
+          selection = int(input("Please select a persona to inspect\n"))
+        except ValueError:
+          print("Please enter a valid input!")
+          continue
+        else:
+          if selection <= 0:
+            print("Please enter a valid input!")
+            continue
+          else:
+            print(f"""
+Persona: {MainCharacter.personas[selection-1].name}
+Skills: {', '.join(skill.name for skill in MainCharacter.personas[selection-1].skills)}
+---------
+Affinity: {MainCharacter.personas[selection-1].affinity}
+Strength: {MainCharacter.personas[selection-1].strength}
+Magic: {MainCharacter.personas[selection-1].magic}
+Endurance: {MainCharacter.personas[selection-1].endurance}
+Agility: {MainCharacter.personas[selection-1].agility}
+Luck: {MainCharacter.personas[selection-1].luck}
+""")
+      elif menu == "3":
+        print("not yet implemented")
+        pass
+      elif menu == "4":
+        print("Moving to the next battle...")
+        break
+      else:
+        print("Please enter a valid input!")
 def main():
   character_selector(starting_characters, MainCharacter)
   intermission()
-  battle_loop()
+  battle_loop(MainCharacter, Enemy)
 
 if __name__ == "__main__":
     main()

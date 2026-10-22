@@ -11,7 +11,7 @@ Agi = Skill("Fire", "Agi", 3, 40, 1)
 Bufu = Skill("Ice", "Bufu", 4, 40, 1, "Freeze", 0.15)
 
 
-def battle_loop():
+def battle_loop(player, enemy):
   print(f"--- BATTLE START: {player.name} vs {enemy.name} ---")
   battle_active = True
   turn_counter = 1
@@ -23,6 +23,7 @@ def battle_loop():
     )
     print(f"{enemy.name} HP: {enemy.curhp}/{enemy.maxhp}")
     print("---------------------------------------------------")
+
 
     #PLAYER TURN
     print("Choose an action:")
