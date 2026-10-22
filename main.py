@@ -1,4 +1,4 @@
-from classes import Character, Player, Skill, Orpheus, Arsene, Izanagi
+from classes import Character, Player, Skill, Orpheus, Arsene, Izanagi, Cerberus
 from battle import battle_loop
 from selection import character_selector
 

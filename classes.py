@@ -20,11 +20,22 @@ class Character:
         self.cursp = cursp
         self.personas = personas
 
+        self.equipped_persona = (self.personas[0] if self.personas else None)
+
+    def use_skill(self, skill):
+        cost = skill.cost
+        if self.cursp < cost:
+            print("Not enough Skill Points!")
+            return False
+
+        else:
+            return True
+
 class Player(Character):
     def __init__(self, name, maxhp, currenthp, defense, maxsp, cursp, personas = []):
         super().__init__(name, maxhp, currenthp, defense, maxsp, cursp, personas)
 
-
+        self.equipped_persona = (self.personas[0] if self.personas else None)
 
     def use_skill(self, skill):
         cost = skill.cost
