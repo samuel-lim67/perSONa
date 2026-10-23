@@ -16,6 +16,7 @@ Are you ready to enter the next battle?
 (Y/N)
 """)
   if progress_game.lower().strip() == "y":
+    print("Moving to the next battle...")
     return
   else:
     while True:
@@ -24,7 +25,7 @@ What would you like to do?
 1 - Inspect {MainCharacter.name}
 2 - Inspect Personas
 3 - Use Items
-4- Change Slots
+4 - Change Slots
 5 - Next Battle
 """)
       if menu == "1": #inspects the player themselves
@@ -66,6 +67,8 @@ Luck: {MainCharacter.personas[selection-1].luck}
         break
       else:
         print("Please enter a valid input!")
+
+
 def main():
   character_selector(starting_characters, MainCharacter)
   intermission()
