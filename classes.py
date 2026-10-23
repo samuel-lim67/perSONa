@@ -59,6 +59,22 @@ def calculate_damage(skill, persona, target_persona, enemy):
 
     return round(damage), effectivness
 
+def check_effectiveness(effectiveness, enemy):
+    if enemy.curhp <= 0:
+        return False
+
+    if effectiveness == "It was very effective!":
+        if not enemy.knocked_down:
+            print(f"{enemy.name} was knocked down!")
+            print("One more turn!")
+            enemy.knocked_down = True
+            return True
+        else:
+            print(f"{enemy.name} is still knocked down")
+            return False
+    else:
+        return False
+
 class Skill:
     def __init__(self, element, name, cost, effect, targets, accuracy, sideeffecttype = None, sideeffectchance = None):
         self.element = element
@@ -89,6 +105,7 @@ class Character:
         self.cursp = cursp
         self.personas = personas if personas is not None else []
 
+        self.knocked_down = False
 
     def use_skill(self, skill):
         cost = skill.cost
@@ -155,7 +172,9 @@ class Player(Character):
 
                                     print(f"{self.name} casts {skill_to_use.name} on {enemy.name}'s {target_persona.name} for {skill_to_use.cost} SP!")
                                     print(f"{effectiveness} It deals {damage} {skill_to_use.element} damage!")
-                                    turn_ = False
+                                    extra_turn = check_effectiveness(effectiveness, enemy)
+                                    if not extra_turn:
+                                        turn_ = False
                                     break
                             else:
                                 print("Not enough SP!")
@@ -178,23 +197,28 @@ class NPC(Character):
         self.classification = classification
 
     def npc_turn(self, persona, targets):
-        print(f"\n--- {self.name}'s Turn ---")
-        print(f"Current Persona: {persona.name}")
-        skill_to_use = random.choice(persona.skills)  # /////////add an algorithm for this
-        if self.use_skill(skill_to_use):
-            target_persona, enemy = npc_target_selector(targets)
-            if isinstance(skill_to_use, PhysicalAttack):
-                damage, effectiveness = calculate_damage(skill_to_use, persona, target_persona, enemy)
-            elif isinstance(skill_to_use, ElementalAttack):
-                damage, effectiveness = calculate_damage(skill_to_use, persona, target_persona, enemy)
-                self.cursp -= skill_to_use.cost
-                enemy.curhp -= damage
+        turn_ = True
+        while turn_:
+            print(f"\n--- {self.name}'s Turn ---")
+            print(f"Current Persona: {persona.name}")
+            skill_to_use = random.choice(persona.skills)  # /////////add an algorithm for this
+            if self.use_skill(skill_to_use):
+                target_persona, enemy = npc_target_selector(targets)
+                if isinstance(skill_to_use, PhysicalAttack):
+                    damage, effectiveness = calculate_damage(skill_to_use, persona, target_persona, enemy)
+                elif isinstance(skill_to_use, ElementalAttack):
+                    damage, effectiveness = calculate_damage(skill_to_use, persona, target_persona, enemy)
+                    self.cursp -= skill_to_use.cost
+                    enemy.curhp -= damage
 
-            print(f"{self.name} casts {skill_to_use.name} on {enemy.name}'s {target_persona.name} for {skill_to_use.cost} SP!")
-            print(f"{effectiveness} It deals {damage} {skill_to_use.element} damage!")
+                print(f"{self.name} casts {skill_to_use.name} on {enemy.name}'s {target_persona.name} for {skill_to_use.cost} SP!")
+                print(f"{effectiveness} It deals {damage} {skill_to_use.element} damage!")
+                extra_turn = check_effectiveness(effectiveness, enemy)
+                if not extra_turn:
+                    turn_ = False
 
-        else:
-            print("Not enough SP!")
+            else:
+                print("Not enough SP!")
 
 class Persona:
     def __init__(self, name, skills, affinity, strength, magic, endurance, agility, luck):
@@ -236,7 +260,7 @@ Dia = Skill("Healing", "Dia", 3, 50, 1, 1)
 Marakukaja = Skill("Support", "Marakukaja", 24, 0.4, 1, 1)
 #Tarunda
 
-Orpheus = Persona("Orpheus", [Agi], {"Fire": "resist", "Electric": "weak", "Dark": "weak"}, 2, 2, 2, 3, 2)
+Orpheus = Persona("Orpheus", [Agi, Bufu], {"Fire": "resist", "Electric": "weak", "Dark": "weak"}, 2, 2, 2, 3, 2)
 Arsene = Persona("Arsene", [Eiha], {"Ice": "weak","Light": "weak", "Dark": "resist"}, 2, 2, 2, 3, 1)
 Izanagi = Persona("Izanagi", [Zio, Cross_Slash, ], {"Electric": "resist", "Wind": "weak", "Dark": "null"}, 3, 2, 2, 3, 2)
 

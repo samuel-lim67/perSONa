@@ -49,10 +49,15 @@ def battle_loop(combatants):
         order = calculate_turn_order(living_combatants)
 
         for persona, user in order:
+
             if user.curhp <= 0:
                 continue
 
-            elif type(user) == Player:
+            if user.knocked_down:
+                user.knocked_down = False
+                print(f"\n{user.name} gets back up!")
+
+            if type(user) == Player:
                 # PLAYER TURN
                 user.player_turn(enemies, persona)
 
