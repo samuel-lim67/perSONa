@@ -42,8 +42,9 @@ def target_selector(enemies):
 
 def player_turn(player, enemies, persona):
   # PLAYER TURN
+  turn_ = True
   print(f"\n--- {player.name}'s Turn ---")
-  while True:
+  while turn_:
     print(f"Current Persona: {persona.name}")
     print("Choose an action:")
     print("1. Basic Attack")
@@ -59,6 +60,7 @@ def player_turn(player, enemies, persona):
       if target:
         target.curhp -= damage
         print(f"{player.name} attacks {target.name} for {damage} physical damage!")
+        turn_ = False
       elif not target: #if the player wants to back out and go back to the action menu
         pass
 
@@ -67,7 +69,7 @@ def player_turn(player, enemies, persona):
       while True:
         for index, skill in enumerate(persona.skills):
           print(f"{index + 1} - {skill.name}")
-        print(f"{len(persona.skills)+1} - Back)
+        print(f"{len(persona.skills)+1} - Back")
         try:
           selection = int(input("Please select a skill\n"))
         except ValueError:
@@ -83,9 +85,9 @@ def player_turn(player, enemies, persona):
               else:
                 player.cursp -= skill_to_use.cost
                 target.curhp -= skill_to_use.effect
-                print(f"{player.name} casts {skill_to_use.name} for"
-                      f" {skill_to_use.cost} SP!")
+                print(f"{player.name} casts {skill_to_use.name} on {target.name} for {skill_to_use.cost} SP!")
                 print(f"It deals {skill_to_use.effect} {skill_to_use.element} damage!")
+                turn_ = False
                 break
             else:
               print("Not enough SP!")
@@ -96,9 +98,11 @@ def player_turn(player, enemies, persona):
 
     elif choice == "3":
       print(f"{player.name} takes a defensive stance! (Guard active)")
+      turn_ = False
       # add guard logic here (e.g., temporary defense boost and calculation)
+
     else:
-      print("Invalid choice, turn skipped!")
+      print("Please enter a valid input!")
 
 def enemy_turn(player, enemy, persona):
   print(f"\n--- {enemy.name}'s Turn ---")
