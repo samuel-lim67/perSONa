@@ -1,4 +1,5 @@
 import random
+import math
 
 def target_selector(enemies):
     alive_enemies = alive_characters(enemies)
@@ -25,6 +26,17 @@ def alive_characters(combatants):
 def npc_target_selector(allies):
     alive_allies = alive_characters(allies)
     return random.choice(alive_allies)
+
+def calculate_damage(skill, persona, target):
+    if isinstance(skill, PhysicalAttack):
+        offense = persona.strength
+    elif isinstance(skill, ElementalAttack):
+        offense = persona.magic
+    else:
+        return 0
+    damage = 2 * math.sqrt(skill.effect * 15 * offense / target.defense)
+
+    return int(damage)
 
 class Skill:
     def __init__(self, element, name, cost, effect, targets, accuracy, sideeffecttype = None, sideeffectchance = None):
@@ -113,6 +125,10 @@ class Player(Character):
                                 if target is None:
                                     break
                                 else:
+                                    if isinstance(skill_to_use, PhysicalAttack):
+                                        pass
+                                    elif isinstance(skill_to_use, ElementalAttack):
+                                        pass
                                     self.cursp -= skill_to_use.cost
                                     target.curhp -= skill_to_use.effect
                                     print(
