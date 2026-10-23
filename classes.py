@@ -27,7 +27,7 @@ class Character:
             return False
 
         else:
-            self.cursp -= skill.cost
+
             return True
 
 class Player(Character):
@@ -41,7 +41,7 @@ class Player(Character):
             return False
 
         else:
-            self.cursp -= skill.cost
+
             return True
 
     def use_random_skill(self, persona):
