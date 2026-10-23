@@ -1,12 +1,23 @@
 from classes import Character, Player, Persona
 import random
 
-def get_agility(character):
-  return character.equipped_persona.agility
+def get_agility(persona):
+  return persona.agility
 
 def calculate_turn_order(combatants: list):
   alive_combatants = [character for character in combatants if character.curhp > 0]
-  return sorted(alive_combatants, key=get_agility,reverse=True)
+  personas = {}
+  for character in alive_combatants:
+    for persona in character.personas:
+      personas[persona] = character
+  sorted_order = sorted(list(personas), key=get_agility, reverse=True)
+  move_order = []
+  for persona in sorted_order:
+    pair = (persona, personas[persona])
+    move_order.append(pair)
+  return move_order
+
+  #return sorted(alive_combatants, key=get_agility,reverse=True)
 
 def battle_loop(player, enemy):
   print(f"--- BATTLE START: {player.name} vs {enemy.name} ---")
