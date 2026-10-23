@@ -3,15 +3,20 @@ import math
 
 def target_selector(enemies):
     alive_enemies = alive_characters(enemies)
-    for index, enemy in enumerate(alive_enemies):
-        print(f"{index + 1} - {enemy.name}")
-    print(f"{len(alive_enemies) + 1} - Back")
+    targets = []
+    for enemy in alive_enemies:
+        for persona in enemy.personas:
+            target = (persona, enemy)
+            targets.append(target)
+    for index, (persona, enemy) in enumerate(targets):
+        print(f"{index + 1} - {persona.name} : {enemy.name}")
+    print(f"{len(targets) + 1} - Back")
     while True:
         try:
             selection = int(input("Who would you like to attack?\n"))
 
             if 1 <= selection <= len(alive_enemies):
-                return alive_enemies[selection - 1]
+                return targets[selection - 1]
             elif selection == (len(alive_enemies) + 1):
                 return None
             else:
@@ -23,20 +28,36 @@ def alive_characters(combatants):
     alive_combatants = [character for character in combatants if character.curhp > 0]
     return alive_combatants
 
-def npc_target_selector(allies):
-    alive_allies = alive_characters(allies)
-    return random.choice(alive_allies)
+def npc_target_selector(targets):
+    alive_targets = alive_characters(targets)
+    targets_list = []
+    for enemy in alive_targets:
+        for persona in enemy.personas:
+            target = (persona, enemy)
+            targets_list.append(target)
+    return random.choice(targets_list)
 
-def calculate_damage(skill, persona, target):
+def calculate_damage(skill, persona, target_persona, enemy):
     if isinstance(skill, PhysicalAttack):
         offense = persona.strength
     elif isinstance(skill, ElementalAttack):
         offense = persona.magic
     else:
-        return 0
-    damage = 2 * math.sqrt(skill.effect * 15 * offense / target.defense)
+        return 0, "No effect."
+    damage = 2 * math.sqrt(skill.effect * 15 * offense / enemy.defense)
+    affinity = target_persona.affinity.get(skill.element, "neutral")
+    effectivness = "It was normal effectiveness."
+    if affinity == "weak":
+        effectivness = "It was very effective!"
+        damage *= 1.5
+    elif affinity == "resist":
+        effectivness = "It wasn't very effective..."
+        damage *= 0.5
+    elif affinity == "null":
+        effectivness = "It had no effect."
+        return 0, effectivness
 
-    return int(damage)
+    return round(damage), effectivness
 
 class Skill:
     def __init__(self, element, name, cost, effect, targets, accuracy, sideeffecttype = None, sideeffectchance = None):
@@ -121,19 +142,19 @@ class Player(Character):
                         if 1 <= selection <= len(persona.skills):
                             skill_to_use = persona.skills[selection - 1]
                             if self.use_skill(skill_to_use):
-                                target = target_selector(enemies)
-                                if target is None:
+                                target_persona, enemy = target_selector(enemies)
+                                if target_persona is None:
                                     break
                                 else:
                                     if isinstance(skill_to_use, PhysicalAttack):
-                                        pass
+                                        damage, effectiveness = calculate_damage(skill_to_use, persona, target_persona, enemy)
                                     elif isinstance(skill_to_use, ElementalAttack):
-                                        pass
-                                    self.cursp -= skill_to_use.cost
-                                    target.curhp -= skill_to_use.effect
-                                    print(
-                                        f"{self.name} casts {skill_to_use.name} on {target.name} for {skill_to_use.cost} SP!")
-                                    print(f"It deals {skill_to_use.effect} {skill_to_use.element} damage!")
+                                        damage, effectiveness = calculate_damage(skill_to_use, persona, target_persona, enemy)
+                                        self.cursp -= skill_to_use.cost
+                                        enemy.curhp -= damage
+
+                                    print(f"{self.name} casts {skill_to_use.name} on {enemy.name}'s {target_persona.name} for {skill_to_use.cost} SP!")
+                                    print(f"{effectiveness} It deals {damage} {skill_to_use.element} damage!")
                                     turn_ = False
                                     break
                             else:
@@ -161,14 +182,19 @@ class NPC(Character):
         print(f"Current Persona: {persona.name}")
         skill_to_use = random.choice(persona.skills)  # /////////add an algorithm for this
         if self.use_skill(skill_to_use):
-            target = npc_target_selector(targets)
-            self.cursp -= skill_to_use.cost
-            target.curhp -= skill_to_use.effect
-            print(f"{self.name} casts {skill_to_use.name} on {target.name} for {skill_to_use.cost} SP!")
-            print(f"It deals {skill_to_use.effect} {skill_to_use.element} damage!")
+            target_persona, enemy = npc_target_selector(targets)
+            if isinstance(skill_to_use, PhysicalAttack):
+                damage, effectiveness = calculate_damage(skill_to_use, persona, target_persona, enemy)
+            elif isinstance(skill_to_use, ElementalAttack):
+                damage, effectiveness = calculate_damage(skill_to_use, persona, target_persona, enemy)
+                self.cursp -= skill_to_use.cost
+                enemy.curhp -= damage
+
+            print(f"{self.name} casts {skill_to_use.name} on {enemy.name}'s {target_persona.name} for {skill_to_use.cost} SP!")
+            print(f"{effectiveness} It deals {damage} {skill_to_use.element} damage!")
 
         else:
-            print("Not enough SP! Turn wasted.")
+            print("Not enough SP!")
 
 class Persona:
     def __init__(self, name, skills, affinity, strength, magic, endurance, agility, luck):
