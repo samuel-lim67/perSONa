@@ -27,12 +27,22 @@ def npc_target_selector(allies):
     return random.choice(alive_allies)
 
 class Skill:
-    def __init__(self, element, name, cost, effect, targets, sideeffecttype = None, sideeffectchance = None):
+    def __init__(self, element, name, cost, effect, targets, accuracy, sideeffecttype = None, sideeffectchance = None):
         self.element = element
         self.name = name
         self.cost = cost
         self.effect = effect
         self.targets = targets
+        self.accuracy = accuracy
+
+class PhysicalAttack(Skill):
+    def __init__(self, element, name, cost, effect, targets, accuracy, criticalchance):
+        super().__init__(element, name, cost, effect, targets, accuracy)
+        self.criticalchance = criticalchance
+
+class ElementalAttack(Skill):
+    def __init__(self, element, name, cost, effect, targets, accuracy, sideeffecttype = None, sideeffectchance = None):
+        super().__init__(element, name, cost, effect, targets, accuracy)
         self.sideeffect = (sideeffecttype, sideeffectchance)
 
 
@@ -158,26 +168,41 @@ class Persona:
     def get_agility(self):
         return self.agility
 
+#PHYSICAL
+Assault_Dive = PhysicalAttack("Strike", "Assault Dive", 0.12, 120, 1, 0.88, 0.13)
+Cross_Slash = PhysicalAttack("Slash", "Cross Slash", 0.18, 150, 1, 0.99, 0.13)
+Bash = PhysicalAttack("Strike", "Bash", 0.07, 50, 1, 0.9, 0.08)
+
 #FIRE
-Agi = Skill("Fire", "Agi", 3, 40, 1)
+Agi = ElementalAttack("Fire", "Agi", 3, 40, 1, 0.99)
 #ICE
-Bufu = Skill("Ice", "Bufu", 4, 40, 1, "Freeze", 0.15)
+Bufu = ElementalAttack("Ice", "Bufu", 4, 40, 1, 0.99, "Freeze", 0.15)
 #ELECTRIC
-Zio = Skill("Electric", "Zio", 4, 40, 2, "Shock", 0.15)
+Zio = ElementalAttack("Electric", "Zio", 4, 40, 2, 0.99, "Shock", 0.15)
+Ziodyne = ElementalAttack("Electric", "Ziodyne", 14, 220, 1, 0.99, "Shock", 0.15)
 #WIND
-Garu = Skill("Wind", "Garu", 3, 40, 1)
+Garu = ElementalAttack("Wind", "Garu", 3, 40, 1, 0.99)
 #LIGHT
-Kouha = Skill("Light", "Kouha", 4, 60, 1)
+Kouha = ElementalAttack("Light", "Kouha", 4, 60, 1, 0.99)
 #DARK
-Eiha = Skill("Dark", "Eiha", 4, 60, 1)
+Eiha = ElementalAttack("Dark", "Eiha", 4, 60, 1, 0.99)
+#Eiga = ElementalAttack("Dark", )
 #ALMIGHTY
-Megido = Skill("Almighty", "Megido", 20, 170, 4)
+Megido = ElementalAttack("Almighty", "Megido", 20, 170, 4, 0.99)
+#SUPPORT
+Dia = Skill("Healing", "Dia", 3, 50, 1, 1)
+Marakukaja = Skill("Support", "Marakukaja", 24, 0.4, 1, 1)
+#Tarunda
 
 Orpheus = Persona("Orpheus", [Agi], {"Fire": "resist", "Electric": "weak", "Dark": "weak"}, 2, 2, 2, 3, 2)
 Arsene = Persona("Arsene", [Eiha], {"Ice": "weak","Light": "weak", "Dark": "resist"}, 2, 2, 2, 3, 1)
-Izanagi = Persona("Izanagi", [Zio], {"Electric": "resist", "Wind": "weak", "Dark": "null"}, 3, 2, 2, 3, 2)
+Izanagi = Persona("Izanagi", [Zio, Cross_Slash, ], {"Electric": "resist", "Wind": "weak", "Dark": "null"}, 3, 2, 2, 3, 2)
 
 Cerberus = Persona("Cerberus",[Agi, Eiha, Megido],{"Ice": "weak", "Light": "null", "Dark": "resist"},25, 24, 21, 29, 19)
 Penthesilea = Persona("Penthesilea",[Bufu],{"Fire": "weak", "Ice": "resist"},13, 17, 11, 15, 11)
 
 
+#FINAL BOSS IS MARA
+#charge
+#primal force
+#spirit drain
