@@ -22,7 +22,7 @@ def alive_characters(combatants):
     alive_combatants = [character for character in combatants if character.curhp > 0]
     return alive_combatants
 
-def enemy_target_selector(allies):
+def npc_target_selector(allies):
     alive_allies = alive_characters(allies)
     return random.choice(alive_allies)
 
@@ -130,12 +130,12 @@ class NPC(Character):
         super().__init__(name, maxhp, currenthp, defense, maxsp, cursp, personas)
         self.classification = classification
 
-    def enemy_turn(self, persona, targets):
+    def npc_turn(self, persona, targets):
         print(f"\n--- {self.name}'s Turn ---")
         print(f"Current Persona: {persona.name}")
         skill_to_use = random.choice(persona.skills)  # /////////add an algorithm for this
         if self.use_skill(skill_to_use):
-            target = enemy_target_selector(targets)
+            target = npc_target_selector(targets)
             self.cursp -= skill_to_use.cost
             target.curhp -= skill_to_use.effect
             print(f"{self.name} casts {skill_to_use.name} on {target.name} for {skill_to_use.cost} SP!")

@@ -17,21 +17,32 @@ def calculate_turn_order(living_combatants):
         move_order.append(pair)
     return move_order
 
+def sort_combatants(combatants):
+    allies = []
+    enemies = []
+    for combatant in combatants:
+        if type(combatant) != Player:
+            if combatant.classification == "Enemy":
+                enemies.append(combatant)
+            else:
+                allies.append(combatant)
+        else:
+            allies.append(combatant)
+    return allies, enemies
 
-def battle_loop(player, enemy):
-    print(f"--- BATTLE START: {player.name} vs {enemy.name} ---")
-    allies = [player]
-    enemies = [enemy]
-    combatants = allies + enemies
+def battle_loop(combatants):
+    print(f"--- BATTLE START ---")
+    allies, enemies = sort_combatants(combatants)
     battle_active = True
     turn_counter = 1
     while battle_active:
         print(f"\n=================== TURN {turn_counter} ===================")
-        print(
-            f"{player.name} HP: {player.curhp}/{player.maxhp} | SP:"
-            f" {player.cursp}/{player.maxsp}"
-        )
-        print(f"{enemy.name} HP: {enemy.curhp}/{enemy.maxhp}")
+        print("===ALLIES===")
+        for ally in allies:
+            print(f"{ally.name} HP: {ally.curhp}/{ally.maxhp} | SP:{ally.cursp}/{ally.maxsp}" )
+        print("===ENEMIES===")
+        for enemy in enemies:
+            print(f"{enemy.name} HP: {enemy.curhp}/{enemy.maxhp} | SP:{enemy.cursp}/{enemy.maxsp}")
         print("---------------------------------------------------")
 
         living_combatants = alive_characters(combatants)
@@ -45,23 +56,28 @@ def battle_loop(player, enemy):
                 # PLAYER TURN
                 user.player_turn(enemies, persona)
 
-                # CHECK IF ENEMY IS DEFEATED
-                if enemy.curhp <= 0:
-                    print(f"\n🎉 Victory! {enemy.name} has been defeated!")
+                # CHECK IF ENEMIES ARE DEFEATED
+                if not alive_characters(enemies):
+                    print(f"\n🎉 Victory! All enemies have been defeated!")
                     battle_active = False
                     break
 
             else:
                 if user.classification == "Enemy":
                     # ENEMY TURN
-                    user.enemy_turn(persona, allies)
-                    # CHECK IF PLAYER IS DEFEATED
-                    if player.curhp <= 0:
-                        print(f"\n💀 Game Over... {player.name} fell in battle.")
+                    user.npc_turn(persona, allies)
+                    # CHECK IF NO ALLIES ARE ALIVE
+                    if not alive_characters(allies):
+                        print(f"\n💀 Game Over... your whole party has fainted.")
                         battle_active = False
                         break
                 elif user.classification == "Ally":
-                    pass
+                    # ALLY TURN
+                    user.npc_turn(persona, enemies)
+                    if not alive_characters(enemies):
+                        print(f"\n🎉 Victory! All enemies have been defeated!")
+                        battle_active = False
+                        break
 
         turn_counter += 1
 
