@@ -1,9 +1,10 @@
-from classes import Character, Player, Skill, Orpheus, Arsene, Izanagi, Cerberus
+from classes import Character, Player, Skill, Orpheus, Arsene, Izanagi, Cerberus, NPC, Penthesilea
 from battle import battle_loop
 from selection import character_selector
 
 MainCharacter = Player("Prog", 300, 300, 20, 100, 100, [Orpheus])
-Enemy = Character("TestDummy1", 200, 200, 20, 100 ,100, [Cerberus])
+Enemy = NPC("TestDummy1", 200, 200, 20, 100 ,100, "Enemy", [Cerberus])
+Ally = NPC("TestAlly1", 200, 200, 20, 100, 100, "Ally", [Penthesilea])
 starting_characters = [Orpheus, Arsene, Izanagi]
 def intermission():
   progress_game = input(f"""
@@ -20,7 +21,8 @@ What would you like to do?
 1 - Inspect {MainCharacter.name}
 2 - Inspect Personas
 3 - Use Items
-4 - Next Battle
+4- Change Slots
+5 - Next Battle
 """)
       if menu == "1": #inspects the player themselves
         print(f"""
@@ -56,7 +58,7 @@ Luck: {MainCharacter.personas[selection-1].luck}
       elif menu == "3":
         print("not yet implemented")
         pass
-      elif menu == "4":
+      elif menu == "5":
         print("Moving to the next battle...")
         break
       else:
