@@ -72,6 +72,7 @@ Luck: {MainCharacter.personas[selection-1].luck}
 
 
 def main():
+  print("Please Select Your Starting Persona")
   character_selector(starting_characters, MainCharacter)
   intermission()
   battle_loop(combatants)
