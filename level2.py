@@ -12,8 +12,8 @@ def create_level2_combatants(MainCharacter):
     Kokushibo = NPC(
         #enemy1
         name="Kokushibo",
-        maxhp=150,
-        currenthp=150,
+        maxhp=80,
+        currenthp=80,
         defense=20,
         maxsp=100,
         cursp=100,
@@ -23,8 +23,8 @@ def create_level2_combatants(MainCharacter):
     Muzan = NPC(
         #enemy2
         name="Muzan",
-        maxhp=150,
-        currenthp=150,
+        maxhp=80,
+        currenthp=80,
         defense=15,
         maxsp=80,
         cursp=80,
