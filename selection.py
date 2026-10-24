@@ -1,6 +1,6 @@
 def character_selector(choices, character):
     while True:
-        print("Choose a persona")
+        print("Choose a persona.")
         for index, persona in enumerate(choices):
             print(f"{index+1}. {persona.name}")
         try:

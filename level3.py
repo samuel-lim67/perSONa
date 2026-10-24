@@ -26,7 +26,7 @@ def create_level3_combatants(MainCharacter):
             defense=20,
             maxsp=100,
             cursp=100,
-            classification="Enemy",
+            classification="Ally",
             personas=[Izanagi])
 
     Kenjaku = NPC(
@@ -50,6 +50,6 @@ def create_level3_combatants(MainCharacter):
         cursp=80,
         classification="Enemy",
         personas=[Cerberus])
-    combatants = [MainCharacter, Kokushibo, Muzan]
+    combatants = [MainCharacter, Kokushibo, Muzan, Gojo]
     battle_loop(combatants)
 
