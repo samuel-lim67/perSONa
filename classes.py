@@ -191,10 +191,12 @@ class Player(Character):
 
             elif choice == "4":
                 #view inventory
-                print("----Inventory----")
                 if not self.inventory:
-                    print("Your inventory is empty")
+                    print("\nYour inventory is empty")
+                    input("Press any button to return")
+                    return
                 else:
+                    print("----Inventory----")
                     for index, item in enumerate(self.inventory):
                         print(f'{index}. {item.name} x{item.quantity}')
 
