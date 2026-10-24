@@ -6,16 +6,19 @@ starting_characters = [Orpheus, Arsene, Izanagi, Cerberus]
 
 def start_lvl3(MainCharacter):
     print("\n=== LEVEL 3 ===")
-    start_lvl3()
     print("\n========================================")
-    print("\n Your eforts are not in vain... ")
+    print("\n Your efforts are not in vain... ")
     print("A new power awaits within you.")
     print("Choose a Persona to unlock your potential!")
+    previous_personas = MainCharacter.personas.copy()
     character_selector(starting_characters,MainCharacter)
     print("========================================\n")
+    print("Someone approaches you from a distance...")
+    print("An ally!")
+    print("MISSION: CLEAR LEVEL 3")
 
 def create_level3_combatants(MainCharacter):
-    start_lvl3()
+    start_lvl3(MainCharacter)
     MainCharacter.curhp = MainCharacter.maxhp
     MainCharacter.cursp = MainCharacter.maxsp
     Gojo = NPC(
@@ -50,6 +53,6 @@ def create_level3_combatants(MainCharacter):
         cursp=80,
         classification="Enemy",
         personas=[Cerberus])
-    combatants = [MainCharacter, Kokushibo, Muzan, Gojo]
+    combatants = [MainCharacter, Kenjaku, Sukuna, Gojo]
     battle_loop(combatants)
 
