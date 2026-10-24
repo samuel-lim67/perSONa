@@ -262,6 +262,7 @@ shop_items = {"Medicine": Item("Medicine",1,"health",50,0,30),
 
 def add_item(player,item):
     for owned_item in player.inventory:
+        #loop to check if there's an existing item
         if owned_item == item.name:
             owned_item.quantity += item.quantity
             return
