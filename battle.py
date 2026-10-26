@@ -51,6 +51,7 @@ def battle_loop(combatants):
         for persona, user in order:
 
             if user.curhp <= 0:
+                print(f"{user.name} is down.")
                 continue
 
             if user.knocked_down:

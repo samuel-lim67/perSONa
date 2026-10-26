@@ -96,13 +96,14 @@ class ElementalAttack(Skill):
 
 
 class Character:
-    def __init__(self, name, maxhp, currenthp, defense, maxsp, cursp, personas = None):
+    def __init__(self, name, maxhp, currenthp, defense, agility, maxsp, cursp, personas = None):
         self.name = name
         self.maxhp = maxhp
         self.curhp = currenthp
         self.defense = defense
         self.maxsp = maxsp
         self.cursp = cursp
+        self.agility = agility
         self.personas = personas if personas is not None else []
 
         self.knocked_down = False
@@ -111,13 +112,30 @@ class Character:
         cost = skill.cost
         if self.cursp < cost:
             return False
-
         else:
             return True
 
+    def battle_damage_display(self, skill_to_use, target_persona, enemy, damage, effectiveness):
+        if isinstance(skill_to_use, PhysicalAttack):
+            self.curhp -= (skill_to_use.cost*self.maxhp)
+            print(f"{self.name} casts {skill_to_use.name} on {enemy.name}'s {target_persona.name} for {round((skill_to_use.cost*self.maxhp), 1)} HP!")
+        elif isinstance(skill_to_use, ElementalAttack):
+            self.cursp -= skill_to_use.cost
+            print(f"{self.name} casts {skill_to_use.name} on {enemy.name}'s {target_persona.name} for {skill_to_use.cost} SP!")
+        enemy.curhp -= damage
+        print(f"{effectiveness} It deals {damage} {skill_to_use.element} damage!")
+
+    def accuracy_check(self, skill_to_use, enemy):
+        rate_calculation = (skill_to_use.accuracy * (self.agility / enemy.agility))
+        chance = random.random()
+        if chance <= rate_calculation:
+            return True
+        else:
+            return False
+
 class Player(Character):
-    def __init__(self, name, maxhp, currenthp, defense, maxsp, cursp, personas = None, inventory = None):
-        super().__init__(name, maxhp, currenthp, defense, maxsp, cursp, personas)
+    def __init__(self, name, maxhp, currenthp, defense, agility, maxsp, cursp, personas = None, inventory = None):
+        super().__init__(name, maxhp, currenthp, defense, agility, maxsp, cursp, personas)
         self.inventory = inventory if inventory is not None else []
 
     def player_turn(self, enemies, persona):
@@ -159,23 +177,28 @@ class Player(Character):
                         if 1 <= selection <= len(persona.skills):
                             skill_to_use = persona.skills[selection - 1]
                             if self.use_skill(skill_to_use):
-                                target_persona, enemy = target_selector(enemies)
-                                if target_persona is None:
+                                target = target_selector(enemies)
+                                if target is None:
                                     break
                                 else:
-                                    if isinstance(skill_to_use, PhysicalAttack):
-                                        damage, effectiveness = calculate_damage(skill_to_use, persona, target_persona, enemy)
-                                    elif isinstance(skill_to_use, ElementalAttack):
-                                        damage, effectiveness = calculate_damage(skill_to_use, persona, target_persona, enemy)
-                                        self.cursp -= skill_to_use.cost
-                                        enemy.curhp -= damage
-
-                                    print(f"{self.name} casts {skill_to_use.name} on {enemy.name}'s {target_persona.name} for {skill_to_use.cost} SP!")
-                                    print(f"{effectiveness} It deals {damage} {skill_to_use.element} damage!")
-                                    extra_turn = check_effectiveness(effectiveness, enemy)
-                                    if not extra_turn:
+                                    target_persona, enemy = target
+                                    if self.accuracy_check(skill_to_use, enemy):
+                                        damage, effectiveness = calculate_damage(skill_to_use, persona, target_persona,enemy)
+                                        self.battle_damage_display(skill_to_use, target_persona, enemy, damage, effectiveness)
+                                        extra_turn = check_effectiveness(effectiveness, enemy)
+                                        if not extra_turn:
+                                            turn_ = False
+                                        break
+                                    else:
+                                        print(f"{skill_to_use.name} missed!")
+                                        if isinstance(skill_to_use, PhysicalAttack):
+                                            self.curhp -= (skill_to_use.cost * self.maxhp)
+                                            print(f"{round((skill_to_use.cost * self.maxhp), 1)} HP was consumed.")
+                                        elif isinstance(skill_to_use, ElementalAttack):
+                                            self.cursp -= skill_to_use.cost
+                                            print(f"{skill_to_use.cost} SP was consumed.")
                                         turn_ = False
-                                    break
+                                        break
                             else:
                                 print("Not enough SP!")
                         elif selection == (len(persona.skills) + 1):
@@ -192,8 +215,8 @@ class Player(Character):
                 print("Please enter a valid input!")
 
 class NPC(Character):
-    def __init__(self, name, maxhp, currenthp, defense, maxsp, cursp, classification, personas = None):
-        super().__init__(name, maxhp, currenthp, defense, maxsp, cursp, personas)
+    def __init__(self, name, maxhp, currenthp, defense, agility, maxsp, cursp, classification, personas = None):
+        super().__init__(name, maxhp, currenthp, defense, agility, maxsp, cursp, personas)
         self.classification = classification
 
     def npc_turn(self, persona, targets):
@@ -204,17 +227,20 @@ class NPC(Character):
             skill_to_use = random.choice(persona.skills)  # /////////add an algorithm for this
             if self.use_skill(skill_to_use):
                 target_persona, enemy = npc_target_selector(targets)
-                if isinstance(skill_to_use, PhysicalAttack):
+                if self.accuracy_check(skill_to_use, enemy):
                     damage, effectiveness = calculate_damage(skill_to_use, persona, target_persona, enemy)
-                elif isinstance(skill_to_use, ElementalAttack):
-                    damage, effectiveness = calculate_damage(skill_to_use, persona, target_persona, enemy)
-                    self.cursp -= skill_to_use.cost
-                    enemy.curhp -= damage
-
-                print(f"{self.name} casts {skill_to_use.name} on {enemy.name}'s {target_persona.name} for {skill_to_use.cost} SP!")
-                print(f"{effectiveness} It deals {damage} {skill_to_use.element} damage!")
-                extra_turn = check_effectiveness(effectiveness, enemy)
-                if not extra_turn:
+                    self.battle_damage_display(skill_to_use, target_persona, enemy, damage, effectiveness)
+                    extra_turn = check_effectiveness(effectiveness, enemy)
+                    if not extra_turn:
+                        turn_ = False
+                else:
+                    print(f"{skill_to_use.name} missed!")
+                    if isinstance(skill_to_use, PhysicalAttack):
+                        self.curhp -= (skill_to_use.cost * self.maxhp)
+                        print(f"{round((skill_to_use.cost * self.maxhp), 1)} HP was consumed.")
+                    elif isinstance(skill_to_use, ElementalAttack):
+                        self.cursp -= skill_to_use.cost
+                        print(f"{skill_to_use.cost} SP was consumed.")
                     turn_ = False
 
             else:
@@ -261,11 +287,11 @@ Marakukaja = Skill("Support", "Marakukaja", 24, 0.4, 1, 1)
 #Tarunda
 
 Orpheus = Persona("Orpheus", [Agi, Bufu], {"Fire": "resist", "Electric": "weak", "Dark": "weak"}, 2, 2, 2, 3, 2)
-Arsene = Persona("Arsene", [Eiha], {"Ice": "weak","Light": "weak", "Dark": "resist"}, 2, 2, 2, 3, 1)
-Izanagi = Persona("Izanagi", [Zio, Cross_Slash, ], {"Electric": "resist", "Wind": "weak", "Dark": "null"}, 3, 2, 2, 3, 2)
+Arsene = Persona("Arsene", [Eiha, Bash, Cross_Slash], {"Ice": "weak","Light": "weak", "Dark": "resist"}, 2, 2, 2, 3, 1)
+Izanagi = Persona("Izanagi", [Zio, Cross_Slash], {"Electric": "resist", "Wind": "weak", "Dark": "null"}, 3, 2, 2, 3, 2)
 
 Cerberus = Persona("Cerberus",[Agi, Eiha, Megido],{"Ice": "weak", "Light": "null", "Dark": "resist"},25, 24, 21, 29, 19)
-Penthesilea = Persona("Penthesilea",[Bufu],{"Fire": "weak", "Ice": "resist"},13, 17, 11, 15, 11)
+Penthesilea = Persona("Penthesilea",[Bufu, Bash, Cross_Slash],{"Fire": "weak", "Ice": "resist"},13, 17, 11, 15, 11)
 
 
 #FINAL BOSS IS MARA
