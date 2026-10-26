@@ -62,6 +62,9 @@ Luck: {MainCharacter.personas[selection-1].luck}
       elif menu == "3":
         print("not yet implemented")
         pass
+
+      elif menu == "4":
+          MainCharacter.switch_slots()
       elif menu == "5":
         print("Moving to the next battle...")
         break

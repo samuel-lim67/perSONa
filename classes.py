@@ -1,5 +1,7 @@
 import random
 import math
+from encodings.punycode import selective_len
+
 
 def target_selector(enemies):
     alive_enemies = alive_characters(enemies)
@@ -194,7 +196,7 @@ class Player(Character):
                     continue
                 else:
                     target_persona, enemy = target
-                    enemy -= damage
+                    enemy.curhp -= damage
                     print(f"{self.name} used a basic attack on {enemy.name} for 25 damage!")
 
 
@@ -273,6 +275,49 @@ class Player(Character):
                     else:
                         print("Please enter a valid input!")
                         continue
+
+    def switch_slots(self):
+        print("========YOUR PERSONAS========")
+        while True:
+            for index, persona in enumerate(self.personas):
+                print(f"{index+1} - {persona.name}")
+
+            print(f"{len(self.personas) + 1} - Back")
+            try:
+                selection_original = int(input("Who would you like to switch?"))
+            except ValueError:
+                print("Please enter a valid input!")
+                continue
+            else:
+                if 1 <= selection_original <= len(self.personas):
+                    selected_persona = self.personas[selection_original - 1]
+                    other_personas = [persona for persona in self.personas if persona != selected_persona]
+                    for index, persona in enumerate(other_personas):
+                        print(f"{index + 1} - {persona.name}")
+
+                    print(f"{len(other_personas) + 1} - Back")
+                    try:
+                        selection_new = int(input(f"Who would you like to switch {selected_persona.name} with?"))
+                    except ValueError:
+                        print("Please enter a valid input!")
+                        continue
+                    else:
+                        if 1 <= selection_new <= len(other_personas):
+                            original_index = self.personas.index(selected_persona)
+                            new_index = self.personas.index(other_personas[selection_new-1])
+                            self.personas[original_index], self.personas[new_index] = self.personas[new_index], self.personas[original_index]
+                            print(f"Swapped {selected_persona.name} with {other_personas[selection_new - 1].name}!")
+                            return
+                        elif selection_new == (len(other_personas) + 1):
+                            return
+                        else:
+                            print("Please select a valid input!")
+
+                elif selection_original == (len(self.personas)+1):
+                    return
+                else:
+                    print("Please select a valid input!")
+
 
 class NPC(Character):
     def __init__(self, name, maxhp, currenthp, defense, agility, maxsp, cursp, classification, personas = None, status_effect = None):
