@@ -230,7 +230,9 @@ class Player(Character):
                                                 damage, effectiveness = calculate_damage(skill_to_use, persona, target_persona,enemy)
                                                 self.battle_damage_display(skill_to_use, target_persona, enemy, damage, effectiveness)
                                                 extra_turn = check_effectiveness(effectiveness, enemy)
-                                                if not extra_turn:
+                                                if extra_turn:
+                                                    turn_ = True
+                                                else:
                                                     turn_ = False
                                             else:
                                                 print(f"{skill_to_use.name} missed!")
@@ -246,10 +248,13 @@ class Player(Character):
                                                 damage, effectiveness = calculate_damage(skill_to_use, persona, target_persona,enemy)
                                                 self.battle_damage_display(skill_to_use, target_persona, enemy, damage, effectiveness)
                                                 extra_turn = check_effectiveness(effectiveness, enemy)
-                                                if not extra_turn:
+                                                if extra_turn:
+                                                    turn_ = True
+                                                else:
                                                     turn_ = False
                                             else:
                                                 print(f"{skill_to_use.name} missed!")
+                                                turn_ = False
 
                                     break
 
@@ -355,7 +360,9 @@ class NPC(Character):
                             damage, effectiveness = calculate_damage(skill_to_use, persona, target_persona, enemy)
                             self.battle_damage_display(skill_to_use, target_persona, enemy, damage, effectiveness)
                             extra_turn = check_effectiveness(effectiveness, enemy)
-                            if not extra_turn:
+                            if extra_turn:
+                                turn_ = True
+                            else:
                                 turn_ = False
                         else:
                             print(f"{skill_to_use.name} missed!")
@@ -370,7 +377,9 @@ class NPC(Character):
                                 damage, effectiveness = calculate_damage(skill_to_use, persona, target_persona, target)
                                 self.battle_damage_display(skill_to_use, target_persona, target, damage, effectiveness)
                                 extra_turn = check_effectiveness(effectiveness, target)
-                                if not extra_turn:
+                                if extra_turn:
+                                    turn_ = True
+                                else:
                                     turn_ = False
                             else:
                                 print(f"{skill_to_use.name} missed!")

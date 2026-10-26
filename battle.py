@@ -60,6 +60,11 @@ def battle_loop(combatants):
 
             if type(user) == Player:
                 # PLAYER TURN
+                if not alive_characters(enemies):
+                    print(f"\n🎉 Victory! All enemies have been defeated!")
+                    battle_active = False
+                    break
+
                 user.player_turn(enemies, persona)
 
                 # CHECK IF ENEMIES ARE DEFEATED
