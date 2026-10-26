@@ -182,13 +182,14 @@ class Player(Character):
     def player_turn(self, enemies, persona):
         # PLAYER TURN
         turn_ = True
-        print(f"\n--- {self.name}'s Turn ---")
+        print(f"\n--- {self.name}'s Turn ---")  
         while turn_:
             print(f"Current Persona: {persona.name}")
             print("Choose an action:")
             print("1. Basic Attack")
             print("2. Use Skill")
             print("3. Guard")
+            print("4. View Inventory")
 
             choice = input("Enter choice (1-3):\n")
 
@@ -271,6 +272,18 @@ class Player(Character):
                 print(f"{self.name} takes a defensive stance! (Guard active)")
                 turn_ = False
                 # add guard logic here (e.g., temporary defense boost and calculation)
+
+            elif choice == "4":
+                #view inventory
+                if not self.inventory:
+                    print("\nYour inventory is empty")
+                    input("Press any button to return")
+                    return
+                else:
+                    print("----Inventory----")
+                    for index, item in enumerate(self.inventory):
+                        print(f'{index}. {item.name} x{item.quantity}')
+
 
             else:
                 print("Please enter a valid input!")
@@ -404,6 +417,29 @@ class Persona:
 
     def get_agility(self):
         return self.agility
+
+class Item:
+    def __init__(self, name, quantity, stat_type , effect, duration,price):
+        self.name = name
+        self.quantity = quantity
+        self.type = stat_type
+        self.effect = effect
+        self.duration = duration
+        self.price = price
+
+shop_items = {"Medicine": Item("Medicine",1,"health",50,0,30),
+              "SP Bead": Item("SP Bead",1,"sp",50,0,25),
+              "Guard Charm": Item("Guard Charm",1,"defense",50,2,35)}
+
+def add_item(player,item):
+    for owned_item in player.inventory:
+        #loop to check if there's an existing item
+        if owned_item == item.name:
+            owned_item.quantity += item.quantity
+            return
+            
+    player.inventory.append(item)
+
 
 #PHYSICAL
 Assault_Dive = PhysicalAttack("Strike", "Assault Dive", 0.12, 120, 1, 0.88, 0.13)

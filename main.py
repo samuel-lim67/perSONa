@@ -1,5 +1,8 @@
 from classes import Character, Player, Skill, Orpheus, Arsene, Izanagi, Cerberus, NPC, Penthesilea
 from battle import battle_loop
+from selection import character_selector
+from level2 import create_level2_combatants
+from level3 import create_level3_combatants
 
 MainCharacter = Player("Prog", 300, 300, 20, 50, 100, 100, [Orpheus])
 Enemy = NPC("TestDummy1", 200, 200, 20, 100, 100 ,100, "Enemy", [Cerberus])
@@ -76,6 +79,8 @@ def main():
   MainCharacter.character_selector(starting_characters)
   intermission()
   battle_loop(combatants)
+  create_level2_combatants(MainCharacter)
+  create_level3_combatants(MainCharacter)
 
 if __name__ == "__main__":
     main()
