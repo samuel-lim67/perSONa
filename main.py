@@ -1,14 +1,14 @@
 from classes import Character, Player, Skill, Orpheus, Arsene, Izanagi, Cerberus, NPC, Penthesilea
 from battle import battle_loop
-from selection import character_selector
 
 MainCharacter = Player("Prog", 300, 300, 20, 50, 100, 100, [Orpheus])
-Enemy = NPC("TestDummy1", 200, 200, 20, 150, 100 ,100, "Enemy", [Cerberus])
+Enemy = NPC("TestDummy1", 200, 200, 20, 100, 100 ,100, "Enemy", [Cerberus])
 Ally = NPC("TestAlly1", 200, 200, 20, 50, 100, 100, "Ally", [Penthesilea])
 
 combatants = [MainCharacter, Enemy, Ally]
 
 starting_characters = [Orpheus, Arsene, Izanagi]
+
 def intermission():
   progress_game = input(f"""
 ====================INTERMISSION====================
@@ -70,7 +70,7 @@ Luck: {MainCharacter.personas[selection-1].luck}
 
 
 def main():
-  character_selector(starting_characters, MainCharacter)
+  MainCharacter.character_selector(starting_characters)
   intermission()
   battle_loop(combatants)
 
