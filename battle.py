@@ -39,10 +39,10 @@ def battle_loop(combatants):
         print(f"\n=================== TURN {turn_counter} ===================")
         print("===ALLIES===")
         for ally in allies:
-            print(f"{ally.name} HP: {ally.curhp}/{ally.maxhp} | SP:{ally.cursp}/{ally.maxsp}" )
+            print(f"{ally.name} HP: {ally.curhp}/{ally.maxhp} | SP:{ally.cursp}/{ally.maxsp} | Status Effects: {ally.status_effect}" )
         print("===ENEMIES===")
         for enemy in enemies:
-            print(f"{enemy.name} HP: {enemy.curhp}/{enemy.maxhp} | SP:{enemy.cursp}/{enemy.maxsp}")
+            print(f"{enemy.name} HP: {enemy.curhp}/{enemy.maxhp} | SP:{enemy.cursp}/{enemy.maxsp} | Status Effects: {enemy.status_effect}")
         print("---------------------------------------------------")
 
         living_combatants = alive_characters(combatants)

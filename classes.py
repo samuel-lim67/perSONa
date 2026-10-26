@@ -75,6 +75,38 @@ def check_effectiveness(effectiveness, enemy):
     else:
         return False
 
+def side_effect(skill_to_use, enemy):
+    sideeffecttype, sideeffect_chance = skill_to_use.sideeffect
+    if enemy.status_effect:
+        return
+    else:
+        if sideeffecttype is None:
+            return
+        else:
+            chance = random.random()
+            if chance <= sideeffect_chance:
+                enemy.status_effect = sideeffecttype
+                print(f"{sideeffecttype} was applied on {enemy.name}!")
+
+def critical_hit(skill_to_use, enemy, damage):
+    chance = random.random()
+    if chance <= skill_to_use.criticalchance:
+        print("Critical hit!")
+        return damage*1.5
+    else:
+        if enemy.status_effect == "Freeze":
+            print("Critical hit!")
+            return damage*1.5
+        elif enemy.status_effect == "Shock":
+            chance = random.random()
+            if chance <= 0.35:
+                print("Critical hit!")
+                return damage*1.5
+            else:
+                return damage
+        else:
+            return damage
+
 class Skill:
     def __init__(self, element, name, cost, effect, targets, accuracy, sideeffecttype = None, sideeffectchance = None):
         self.element = element
@@ -96,7 +128,7 @@ class ElementalAttack(Skill):
 
 
 class Character:
-    def __init__(self, name, maxhp, currenthp, defense, agility, maxsp, cursp, personas = None):
+    def __init__(self, name, maxhp, currenthp, defense, agility, maxsp, cursp, personas = None, status_effect = None):
         self.name = name
         self.maxhp = maxhp
         self.curhp = currenthp
@@ -105,6 +137,7 @@ class Character:
         self.cursp = cursp
         self.agility = agility
         self.personas = personas if personas is not None else []
+        self.status_effect = status_effect
 
         self.knocked_down = False
 
@@ -118,9 +151,11 @@ class Character:
     def battle_damage_display(self, skill_to_use, target_persona, enemy, damage, effectiveness):
         if isinstance(skill_to_use, PhysicalAttack):
             self.curhp -= (skill_to_use.cost*self.maxhp)
+            damage = critical_hit(skill_to_use, enemy, damage)
             print(f"{self.name} casts {skill_to_use.name} on {enemy.name}'s {target_persona.name} for {round((skill_to_use.cost*self.maxhp), 1)} HP!")
         elif isinstance(skill_to_use, ElementalAttack):
             self.cursp -= skill_to_use.cost
+            side_effect(skill_to_use, enemy)
             print(f"{self.name} casts {skill_to_use.name} on {enemy.name}'s {target_persona.name} for {skill_to_use.cost} SP!")
         enemy.curhp -= damage
         print(f"{effectiveness} It deals {damage} {skill_to_use.element} damage!")
@@ -134,8 +169,8 @@ class Character:
             return False
 
 class Player(Character):
-    def __init__(self, name, maxhp, currenthp, defense, agility, maxsp, cursp, personas = None, inventory = None):
-        super().__init__(name, maxhp, currenthp, defense, agility, maxsp, cursp, personas)
+    def __init__(self, name, maxhp, currenthp, defense, agility, maxsp, cursp, personas = None, status_effect = None, inventory = None):
+        super().__init__(name, maxhp, currenthp, defense, agility, maxsp, cursp, personas, status_effect)
         self.inventory = inventory if inventory is not None else []
 
     def player_turn(self, enemies, persona):
@@ -155,12 +190,13 @@ class Player(Character):
                 # basic attack logic
                 damage = 25  # placeholder for base attack calculation
                 target = target_selector(enemies)
-                if target:
-                    target.curhp -= damage
-                    print(f"{self.name} attacks {target.name} for {damage} physical damage!")
-                    turn_ = False
-                elif not target:  # if the player wants to back out and go back to the action menu
-                    pass
+                if target is None:
+                    continue
+                else:
+                    target_persona, enemy = target
+                    enemy -= damage
+                    print(f"{self.name} used a basic attack on {enemy.name} for 25 damage!")
+
 
             elif choice == "2":
                 # skill logic
@@ -239,8 +275,8 @@ class Player(Character):
                         continue
 
 class NPC(Character):
-    def __init__(self, name, maxhp, currenthp, defense, agility, maxsp, cursp, classification, personas = None):
-        super().__init__(name, maxhp, currenthp, defense, agility, maxsp, cursp, personas)
+    def __init__(self, name, maxhp, currenthp, defense, agility, maxsp, cursp, classification, personas = None, status_effect = None):
+        super().__init__(name, maxhp, currenthp, defense, agility, maxsp, cursp, personas, status_effect)
         self.classification = classification
 
     def npc_turn(self, persona, targets):
