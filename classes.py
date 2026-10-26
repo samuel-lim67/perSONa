@@ -1,7 +1,5 @@
 import random
 import math
-from encodings.punycode import selective_len
-
 
 def target_selector(enemies):
     alive_enemies = alive_characters(enemies)
@@ -152,11 +150,9 @@ class Character:
 
     def battle_damage_display(self, skill_to_use, target_persona, enemy, damage, effectiveness):
         if isinstance(skill_to_use, PhysicalAttack):
-            self.curhp -= (skill_to_use.cost*self.maxhp)
             damage = critical_hit(skill_to_use, enemy, damage)
             print(f"{self.name} casts {skill_to_use.name} on {enemy.name}'s {target_persona.name} for {round((skill_to_use.cost*self.maxhp), 1)} HP!")
         elif isinstance(skill_to_use, ElementalAttack):
-            self.cursp -= skill_to_use.cost
             side_effect(skill_to_use, enemy)
             print(f"{self.name} casts {skill_to_use.name} on {enemy.name}'s {target_persona.name} for {skill_to_use.cost} SP!")
         enemy.curhp -= damage
@@ -169,6 +165,14 @@ class Character:
             return True
         else:
             return False
+
+    def cost_calculator(self, skill_to_use):
+        if isinstance(skill_to_use, PhysicalAttack):
+            self.curhp -= (skill_to_use.cost * self.maxhp)
+            print(f"{round((skill_to_use.cost * self.maxhp), 1)} HP was consumed.")
+        elif isinstance(skill_to_use, ElementalAttack):
+            self.cursp -= skill_to_use.cost
+            print(f"{skill_to_use.cost} SP was consumed.")
 
 class Player(Character):
     def __init__(self, name, maxhp, currenthp, defense, agility, maxsp, cursp, personas = None, status_effect = None, inventory = None):
@@ -215,28 +219,40 @@ class Player(Character):
                         if 1 <= selection <= len(persona.skills):
                             skill_to_use = persona.skills[selection - 1]
                             if self.use_skill(skill_to_use):
-                                target = target_selector(enemies)
-                                if target is None:
+                                if skill_to_use.targets < 4:
+                                    for _ in range(skill_to_use.targets):
+                                        target = target_selector(enemies)
+                                        if target is None:
+                                            break
+                                        else:
+                                            target_persona, enemy = target
+                                            if self.accuracy_check(skill_to_use, enemy):
+                                                damage, effectiveness = calculate_damage(skill_to_use, persona, target_persona,enemy)
+                                                self.battle_damage_display(skill_to_use, target_persona, enemy, damage, effectiveness)
+                                                extra_turn = check_effectiveness(effectiveness, enemy)
+                                                if not extra_turn:
+                                                    turn_ = False
+                                            else:
+                                                print(f"{skill_to_use.name} missed!")
+                                                turn_ = False
                                     break
                                 else:
-                                    target_persona, enemy = target
-                                    if self.accuracy_check(skill_to_use, enemy):
-                                        damage, effectiveness = calculate_damage(skill_to_use, persona, target_persona,enemy)
-                                        self.battle_damage_display(skill_to_use, target_persona, enemy, damage, effectiveness)
-                                        extra_turn = check_effectiveness(effectiveness, enemy)
-                                        if not extra_turn:
-                                            turn_ = False
-                                        break
-                                    else:
-                                        print(f"{skill_to_use.name} missed!")
-                                        if isinstance(skill_to_use, PhysicalAttack):
-                                            self.curhp -= (skill_to_use.cost * self.maxhp)
-                                            print(f"{round((skill_to_use.cost * self.maxhp), 1)} HP was consumed.")
-                                        elif isinstance(skill_to_use, ElementalAttack):
-                                            self.cursp -= skill_to_use.cost
-                                            print(f"{skill_to_use.cost} SP was consumed.")
-                                        turn_ = False
-                                        break
+                                    for enemy in enemies:
+                                        if enemy.curhp <= 0:
+                                            continue
+
+                                        for target_persona in enemy.personas:
+                                            if self.accuracy_check(skill_to_use, enemy):
+                                                damage, effectiveness = calculate_damage(skill_to_use, persona, target_persona,enemy)
+                                                self.battle_damage_display(skill_to_use, target_persona, enemy, damage, effectiveness)
+                                                extra_turn = check_effectiveness(effectiveness, enemy)
+                                                if not extra_turn:
+                                                    turn_ = False
+                                            else:
+                                                print(f"{skill_to_use.name} missed!")
+
+                                    break
+
                             else:
                                 print("Not enough SP!")
                         elif selection == (len(persona.skills) + 1):
@@ -331,22 +347,34 @@ class NPC(Character):
             print(f"Current Persona: {persona.name}")
             skill_to_use = random.choice(persona.skills)  # /////////add an algorithm for this
             if self.use_skill(skill_to_use):
-                target_persona, enemy = npc_target_selector(targets)
-                if self.accuracy_check(skill_to_use, enemy):
-                    damage, effectiveness = calculate_damage(skill_to_use, persona, target_persona, enemy)
-                    self.battle_damage_display(skill_to_use, target_persona, enemy, damage, effectiveness)
-                    extra_turn = check_effectiveness(effectiveness, enemy)
-                    if not extra_turn:
-                        turn_ = False
+                self.cost_calculator(skill_to_use)
+                if skill_to_use.targets < 4:
+                    for _ in range(skill_to_use.targets):
+                        target_persona, enemy = npc_target_selector(targets)
+                        if self.accuracy_check(skill_to_use, enemy):
+                            damage, effectiveness = calculate_damage(skill_to_use, persona, target_persona, enemy)
+                            self.battle_damage_display(skill_to_use, target_persona, enemy, damage, effectiveness)
+                            extra_turn = check_effectiveness(effectiveness, enemy)
+                            if not extra_turn:
+                                turn_ = False
+                        else:
+                            print(f"{skill_to_use.name} missed!")
+                            turn_ = False
                 else:
-                    print(f"{skill_to_use.name} missed!")
-                    if isinstance(skill_to_use, PhysicalAttack):
-                        self.curhp -= (skill_to_use.cost * self.maxhp)
-                        print(f"{round((skill_to_use.cost * self.maxhp), 1)} HP was consumed.")
-                    elif isinstance(skill_to_use, ElementalAttack):
-                        self.cursp -= skill_to_use.cost
-                        print(f"{skill_to_use.cost} SP was consumed.")
-                    turn_ = False
+                    for target in targets:
+                        if target.curhp <= 0:
+                            continue
+
+                        for target_persona in target.personas:
+                            if self.accuracy_check(skill_to_use, target):
+                                damage, effectiveness = calculate_damage(skill_to_use, persona, target_persona, target)
+                                self.battle_damage_display(skill_to_use, target_persona, target, damage, effectiveness)
+                                extra_turn = check_effectiveness(effectiveness, target)
+                                if not extra_turn:
+                                    turn_ = False
+                            else:
+                                print(f"{skill_to_use.name} missed!")
+                                turn_ = False
 
             else:
                 print("Not enough SP!")
