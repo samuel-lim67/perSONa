@@ -151,10 +151,10 @@ class Character:
     def battle_damage_display(self, skill_to_use, target_persona, enemy, damage, effectiveness):
         if isinstance(skill_to_use, PhysicalAttack):
             damage = critical_hit(skill_to_use, enemy, damage)
-            print(f"{self.name} casts {skill_to_use.name} on {enemy.name}'s {target_persona.name} for {round((skill_to_use.cost*self.maxhp), 1)} HP!")
+            print(f"{self.name} casts {skill_to_use.name} on {enemy.name}'s {target_persona.name}!")
         elif isinstance(skill_to_use, ElementalAttack):
             side_effect(skill_to_use, enemy)
-            print(f"{self.name} casts {skill_to_use.name} on {enemy.name}'s {target_persona.name} for {skill_to_use.cost} SP!")
+            print(f"{self.name} casts {skill_to_use.name} on {enemy.name}'s {target_persona.name}!")
         enemy.curhp -= damage
         print(f"{effectiveness} It deals {damage} {skill_to_use.element} damage!")
 
@@ -190,7 +190,7 @@ class Player(Character):
             print("2. Use Skill")
             print("3. Guard")
 
-            choice = input("Enter choice (1-3): ")
+            choice = input("Enter choice (1-3):\n")
 
             if choice == "1":
                 # basic attack logic
@@ -202,6 +202,7 @@ class Player(Character):
                     target_persona, enemy = target
                     enemy.curhp -= damage
                     print(f"{self.name} used a basic attack on {enemy.name} for 25 damage!")
+                    turn_ = False
 
 
             elif choice == "2":
@@ -237,6 +238,7 @@ class Player(Character):
                                             else:
                                                 print(f"{skill_to_use.name} missed!")
                                                 turn_ = False
+                                    self.cost_calculator(skill_to_use)
                                     break
                                 else:
                                     for enemy in enemies:
@@ -255,7 +257,7 @@ class Player(Character):
                                             else:
                                                 print(f"{skill_to_use.name} missed!")
                                                 turn_ = False
-
+                                    self.cost_calculator(skill_to_use)
                                     break
 
                             else:
@@ -352,7 +354,6 @@ class NPC(Character):
             print(f"Current Persona: {persona.name}")
             skill_to_use = random.choice(persona.skills)  # /////////add an algorithm for this
             if self.use_skill(skill_to_use):
-                self.cost_calculator(skill_to_use)
                 if skill_to_use.targets < 4:
                     for _ in range(skill_to_use.targets):
                         target_persona, enemy = npc_target_selector(targets)
@@ -367,6 +368,7 @@ class NPC(Character):
                         else:
                             print(f"{skill_to_use.name} missed!")
                             turn_ = False
+                    self.cost_calculator(skill_to_use)
                 else:
                     for target in targets:
                         if target.curhp <= 0:
@@ -384,6 +386,7 @@ class NPC(Character):
                             else:
                                 print(f"{skill_to_use.name} missed!")
                                 turn_ = False
+                    self.cost_calculator(skill_to_use)
 
             else:
                 print("Not enough SP!")

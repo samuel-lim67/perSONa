@@ -63,7 +63,7 @@ def battle_loop(combatants):
                 if not alive_characters(enemies):
                     print(f"\n🎉 Victory! All enemies have been defeated!")
                     battle_active = False
-                    break
+                    return "Win"
 
                 user.player_turn(enemies, persona)
 
@@ -71,26 +71,39 @@ def battle_loop(combatants):
                 if not alive_characters(enemies):
                     print(f"\n🎉 Victory! All enemies have been defeated!")
                     battle_active = False
-                    break
+                    return "Win"
 
             else:
                 if user.classification == "Enemy":
                     # ENEMY TURN
+                    if not alive_characters(allies):
+                        print(f"\n💀 Game Over... your whole party has fainted.")
+                        battle_active = False
+                        return "Lose"
+
                     user.npc_turn(persona, allies)
                     # CHECK IF NO ALLIES ARE ALIVE
                     if not alive_characters(allies):
                         print(f"\n💀 Game Over... your whole party has fainted.")
                         battle_active = False
-                        break
+                        return "Lose"
                 elif user.classification == "Ally":
                     # ALLY TURN
-                    user.npc_turn(persona, enemies)
+
                     if not alive_characters(enemies):
                         print(f"\n🎉 Victory! All enemies have been defeated!")
                         battle_active = False
-                        break
+                        return "Lose"
+
+                    user.npc_turn(persona, enemies)
+
+                    if not alive_characters(enemies):
+                        print(f"\n🎉 Victory! All enemies have been defeated!")
+                        battle_active = False
+                        return "Lose"
 
         turn_counter += 1
+    return None
 
 if __name__ == "__main__":
     battle_loop()
