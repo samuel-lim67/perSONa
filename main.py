@@ -4,13 +4,14 @@ from selection import character_selector
 from level2 import create_level2_combatants
 from level3 import create_level3_combatants
 
-MainCharacter = Player("Prog", 300, 300, 20, 100, 100, [])
-Enemy = NPC("TestDummy1", 200, 200, 20, 100 ,100, "Enemy", [Cerberus])
-Ally = NPC("TestAlly1", 200, 200, 20, 100, 100, "Ally", [Penthesilea])
+MainCharacter = Player("Prog", 300, 300, 20, 50, 100, 100, [Orpheus])
+Enemy = NPC("TestDummy1", 200, 200, 20, 100, 100 ,100, "Enemy", [Cerberus])
+Ally = NPC("TestAlly1", 200, 200, 20, 50, 100, 100, "Ally", [Penthesilea])
 
 combatants = [MainCharacter, Enemy, Ally]
 
 starting_characters = [Orpheus, Arsene, Izanagi]
+
 def intermission():
   progress_game = input(f"""
 ====================INTERMISSION====================
@@ -64,6 +65,9 @@ Luck: {MainCharacter.personas[selection-1].luck}
       elif menu == "3":
         print("not yet implemented")
         pass
+
+      elif menu == "4":
+          MainCharacter.switch_slots()
       elif menu == "5":
         print("Moving to the next battle...")
         break
@@ -72,8 +76,7 @@ Luck: {MainCharacter.personas[selection-1].luck}
 
 
 def main():
-  print("Please Select Your Starting Persona")
-  character_selector(starting_characters, MainCharacter)
+  MainCharacter.character_selector(starting_characters)
   intermission()
   battle_loop(combatants)
   create_level2_combatants(MainCharacter)

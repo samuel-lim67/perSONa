@@ -39,10 +39,10 @@ def battle_loop(combatants):
         print(f"\n=================== TURN {turn_counter} ===================")
         print("===ALLIES===")
         for ally in allies:
-            print(f"{ally.name} HP: {ally.curhp}/{ally.maxhp} | SP:{ally.cursp}/{ally.maxsp}" )
+            print(f"{ally.name} HP: {ally.curhp}/{ally.maxhp} | SP:{ally.cursp}/{ally.maxsp} | Status Effects: {ally.status_effect}" )
         print("===ENEMIES===")
         for enemy in enemies:
-            print(f"{enemy.name} HP: {enemy.curhp}/{enemy.maxhp} | SP:{enemy.cursp}/{enemy.maxsp}")
+            print(f"{enemy.name} HP: {enemy.curhp}/{enemy.maxhp} | SP:{enemy.cursp}/{enemy.maxsp} | Status Effects: {enemy.status_effect}")
         print("---------------------------------------------------")
 
         living_combatants = alive_characters(combatants)
@@ -51,6 +51,7 @@ def battle_loop(combatants):
         for persona, user in order:
 
             if user.curhp <= 0:
+                print(f"{user.name} is down.")
                 continue
 
             if user.knocked_down:
@@ -59,32 +60,50 @@ def battle_loop(combatants):
 
             if type(user) == Player:
                 # PLAYER TURN
+                if not alive_characters(enemies):
+                    print(f"\n🎉 Victory! All enemies have been defeated!")
+                    battle_active = False
+                    return "Win"
+
                 user.player_turn(enemies, persona)
 
                 # CHECK IF ENEMIES ARE DEFEATED
                 if not alive_characters(enemies):
                     print(f"\n🎉 Victory! All enemies have been defeated!")
                     battle_active = False
-                    break
+                    return "Win"
 
             else:
                 if user.classification == "Enemy":
                     # ENEMY TURN
+                    if not alive_characters(allies):
+                        print(f"\n💀 Game Over... your whole party has fainted.")
+                        battle_active = False
+                        return "Lose"
+
                     user.npc_turn(persona, allies)
                     # CHECK IF NO ALLIES ARE ALIVE
                     if not alive_characters(allies):
                         print(f"\n💀 Game Over... your whole party has fainted.")
                         battle_active = False
-                        break
+                        return "Lose"
                 elif user.classification == "Ally":
                     # ALLY TURN
-                    user.npc_turn(persona, enemies)
+
                     if not alive_characters(enemies):
                         print(f"\n🎉 Victory! All enemies have been defeated!")
                         battle_active = False
-                        break
+                        return "Lose"
+
+                    user.npc_turn(persona, enemies)
+
+                    if not alive_characters(enemies):
+                        print(f"\n🎉 Victory! All enemies have been defeated!")
+                        battle_active = False
+                        return "Lose"
 
         turn_counter += 1
+    return None
 
 if __name__ == "__main__":
     battle_loop()
