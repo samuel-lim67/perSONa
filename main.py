@@ -73,11 +73,14 @@ Luck: {MainCharacter.personas[selection-1].luck}
 
 
 def main():
-  MainCharacter.character_selector(starting_characters)
-  intermission()
-  battle_loop(combatants)
-  create_level2_combatants(MainCharacter)
-  create_level3_combatants(MainCharacter)
+    while True:
+      MainCharacter.character_selector(starting_characters)
+      intermission()
+      if level_1():
+          intermission()
+          if level_2():
+              intermission()
+              if level_3():
 
 if __name__ == "__main__":
     main()
