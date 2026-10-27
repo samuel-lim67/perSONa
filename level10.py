@@ -1,4 +1,4 @@
-from classes import NPC, Persona, PhysicalAttack, ElementalAttack, Cerberus, Penthesilea, Player
+from classes import NPC, Persona, PhysicalAttack, ElementalAttack, Cerberus, Penthesilea, Player, medicine
 from battle import battle_loop
 
 #SKILLS
@@ -12,10 +12,10 @@ heat_wave = PhysicalAttack("Strike", "Heat Wave", 0.20, 280, 4, 0.9, 0.1)
 Mara = Persona("Mara", [myriad_arrows, primal_force, maralagidyne, heat_wave], {"Strike": "absorb","Fire": "absorb", "Ice": "weak","Light": "weak","Dark": "absorb"}, 60, 50, 50, 48, 39)
 
 #ENEMY
-Hastur = NPC("Hastur", 1500, 1500, 1, 1, 500, 500, "Enemy", [Mara], status_effect = None)
+Hastur = NPC("Hastur", 1500, 1500, 1, 50, 500, 500, "Enemy", [Mara], status_effect = None)
 
 #ignore this cause were only gonna use one throughout the playthrough
-MainCharacter = Player("Prog", 4000, 4000, 400, 50, 100, 100, [Cerberus, Penthesilea])
+MainCharacter = Player("Prog", 4000, 4000, 400, 50, 100, 100, [Cerberus, Penthesilea], None, [medicine])
 
 combatants = [MainCharacter, Hastur]
 

@@ -217,6 +217,26 @@ class Player(Character):
         super().__init__(name, maxhp, currenthp, defense, agility, maxsp, cursp, personas, status_effect)
         self.inventory = inventory if inventory is not None else []
 
+    def item_effect(self, item):
+        if item.type == "health":
+            if self.curhp == self.maxhp:
+                print("It failed!")
+            else:
+                healing = item.effect
+                missing_hp = round(self.maxhp - self.curhp, 1)
+                if healing > missing_hp:
+                    self.curhp += missing_hp
+                    print(f"{self.name} used {item.name} and healed {missing_hp} HP")
+                else:
+                    self.curhp += healing
+                    print(f"{self.name} used {item.name} and healed {healing} HP")
+            self.consume_item(item)
+
+    def consume_item(self, item):
+        item.quantity -= 1
+        if item.quantity <= 0:
+            self.inventory.remove(item)
+
     def player_turn(self, enemies, persona):
         # PLAYER TURN
         turn_ = True
@@ -301,16 +321,7 @@ class Player(Character):
 
             elif choice == "4":
                 #view inventory
-                if not self.inventory:
-                    print("\nYour inventory is empty")
-                    input("Press any button to return")
-                    return
-                else:
-                    print("----Inventory----")
-                    for index, item in enumerate(self.inventory):
-                        print(f'{index}. {item.name} x{item.quantity}')
-
-
+                turn_ = self.check_inventory()
             else:
                 print("Please enter a valid input!")
 
@@ -338,6 +349,36 @@ class Player(Character):
                         print("Please enter a valid input!")
                         continue
 
+    def check_inventory(self):
+        if not self.inventory:
+            print("Inventory empty!")
+            return True
+        else:
+            while True:
+                for index, item in enumerate(self.inventory):
+                    print(f"{index + 1} - {item.name} x{item.quantity}")
+                print(f"{len(self.inventory) + 1} - Back")
+                try:
+                    selection = int(input("What would you like to do?\n"))
+                except ValueError:
+                    print("Please select a valid option!")
+                    continue
+                else:
+                    if 1 <= selection <= len(self.inventory):
+                        while True:
+                            confirm = input(f"Use {self.inventory[selection-1].name}? Y/N\n")
+                            if confirm.strip().lower() == "y":
+                                self.item_effect(self.inventory[selection-1])
+                                return False
+                            elif confirm.strip().lower() == "n":
+                                print("Returning...")
+                                break
+                    elif selection == (len(self.inventory) + 1):
+                        return True
+                    else:
+                        print("Please enter a valid input!")
+                        continue
+
     def switch_slots(self):
         print("========YOUR PERSONAS========")
         while True:
@@ -346,7 +387,7 @@ class Player(Character):
 
             print(f"{len(self.personas) + 1} - Back")
             try:
-                selection_original = int(input("Who would you like to switch?"))
+                selection_original = int(input("Who would you like to switch?\n"))
             except ValueError:
                 print("Please enter a valid input!")
                 continue
@@ -453,8 +494,7 @@ class Item:
         self.duration = duration
         self.price = price
 
-shop_items = {"Medicine": Item("Medicine",1,"health",50,0,30),
-              "SP Bead": Item("SP Bead",1,"sp",50,0,25),
+shop_items = {"SP Bead": Item("SP Bead",1,"sp",50,0,25),
               "Guard Charm": Item("Guard Charm",1,"defense",50,2,35)}
 
 def add_item(player,item):
@@ -505,3 +545,4 @@ Penthesilea = Persona("Penthesilea",[Bufu, Bash, Cross_Slash],{"Fire": "weak", "
 #charge
 #primal force
 #spirit drain
+medicine = Item("Medicine",5,"health",50,0,30)

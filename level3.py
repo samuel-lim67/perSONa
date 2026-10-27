@@ -1,6 +1,5 @@
 from classes import Character, Player, Skill, Orpheus, Arsene, Izanagi, Cerberus, NPC, Penthesilea
 from battle import battle_loop
-from selection import character_selector
 
 starting_characters = [Orpheus, Arsene, Izanagi, Cerberus]
 
@@ -11,7 +10,7 @@ def start_lvl3(MainCharacter):
     print("A new power awaits within you.")
     print("Choose a Persona to unlock your potential!")
     previous_personas = MainCharacter.personas.copy()
-    character_selector(starting_characters,MainCharacter)
+    MainCharacter.character_selector(starting_characters,MainCharacter)
     print("========================================\n")
     print("Someone approaches you from a distance...")
     print("An ally!")

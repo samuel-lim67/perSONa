@@ -1,6 +1,5 @@
 from classes import Character, Player, Skill, Orpheus, Arsene, Izanagi, Cerberus, NPC, Penthesilea
 from battle import battle_loop
-from selection import character_selector
 from level2 import create_level2_combatants
 from level3 import create_level3_combatants
 

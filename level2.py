@@ -1,6 +1,5 @@
 from classes import Character, Player, Skill, Orpheus, Arsene, Izanagi, Cerberus, NPC, Penthesilea
 from battle import battle_loop
-from selection import character_selector
 
 def start_lvl2(MainCharacter):
     print("\n=== LEVEL 2 ===")
