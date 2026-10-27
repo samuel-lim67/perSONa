@@ -213,9 +213,10 @@ class Character:
                     return False
 
 class Player(Character):
-    def __init__(self, name, maxhp, currenthp, defense, agility, maxsp, cursp, personas = None, status_effect = None, inventory = None):
+    def __init__(self, name, maxhp, currenthp, defense, agility, maxsp, cursp, personas = None, status_effect = None, inventory = None, coins = 0):
         super().__init__(name, maxhp, currenthp, defense, agility, maxsp, cursp, personas, status_effect)
         self.inventory = inventory if inventory is not None else []
+        self.coins = coins
 
     def item_effect(self, item):
         if item.type == "health":
@@ -500,7 +501,7 @@ shop_items = {"SP Bead": Item("SP Bead",1,"sp",50,0,25),
 def add_item(player,item):
     for owned_item in player.inventory:
         #loop to check if there's an existing item
-        if owned_item == item.name:
+        if owned_item == item:
             owned_item.quantity += item.quantity
             return
             
