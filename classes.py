@@ -56,8 +56,23 @@ def calculate_damage(skill, persona, target_persona, enemy):
     elif affinity == "null":
         effectivness = "It had no effect."
         return 0, effectivness
+    elif affinity == "absorb":
+        absorb_logic(skill, damage, target_persona, enemy)
+        return None
 
     return round(damage), effectivness
+
+def absorb_logic(skill, damage, target_persona, enemy):
+    if enemy.curhp == enemy.maxhp:
+        print(f"{target_persona.name} absorbed {skill.name}!")
+    else:
+        missing_hp = enemy.maxhp - enemy.curhp
+        if damage < missing_hp:
+            enemy.curhp += round(damage, 1)
+            print(f"{target_persona.name} absorbed {skill.name}! {enemy.name} healed {round(damage,1)} HP...")
+        else:
+            enemy.curhp += missing_hp(round,1)
+            print(f"{target_persona.name} absorbed {skill.name}! {enemy.name} healed {round(missing_hp, 1)} HP...")
 
 def check_effectiveness(effectiveness, enemy):
     if enemy.curhp <= 0:
@@ -174,6 +189,29 @@ class Character:
             self.cursp -= skill_to_use.cost
             print(f"{skill_to_use.cost} SP was consumed.")
 
+    def attack_logic(self, enemies, skill_to_use, persona):
+        while True:
+            target = target_selector(enemies)
+            if target is None:
+                return True
+            else:
+                target_persona, enemy = target
+                if self.accuracy_check(skill_to_use, enemy):
+                    damage_calculated = calculate_damage(skill_to_use, persona, target_persona, enemy)
+                    if not damage_calculated:
+                        return False
+                    else:
+                        damage, effectiveness = damage_calculated
+                        self.battle_damage_display(skill_to_use, target_persona, enemy, damage, effectiveness)
+                        extra_turn = check_effectiveness(effectiveness, enemy)
+                        if extra_turn:
+                            return True
+                        else:
+                            return False
+                else:
+                    print(f"{skill_to_use.name} missed!")
+                    return False
+
 class Player(Character):
     def __init__(self, name, maxhp, currenthp, defense, agility, maxsp, cursp, personas = None, status_effect = None, inventory = None):
         super().__init__(name, maxhp, currenthp, defense, agility, maxsp, cursp, personas, status_effect)
@@ -223,22 +261,10 @@ class Player(Character):
                             if self.use_skill(skill_to_use):
                                 if skill_to_use.targets < 4:
                                     for _ in range(skill_to_use.targets):
-                                        target = target_selector(enemies)
-                                        if target is None:
-                                            break
+                                        if alive_characters(enemies):
+                                            turn_ = self.attack_logic(enemies, skill_to_use, persona)
                                         else:
-                                            target_persona, enemy = target
-                                            if self.accuracy_check(skill_to_use, enemy):
-                                                damage, effectiveness = calculate_damage(skill_to_use, persona, target_persona,enemy)
-                                                self.battle_damage_display(skill_to_use, target_persona, enemy, damage, effectiveness)
-                                                extra_turn = check_effectiveness(effectiveness, enemy)
-                                                if extra_turn:
-                                                    turn_ = True
-                                                else:
-                                                    turn_ = False
-                                            else:
-                                                print(f"{skill_to_use.name} missed!")
-                                                turn_ = False
+                                            break
                                     self.cost_calculator(skill_to_use)
                                     break
                                 else:
@@ -451,7 +477,7 @@ Agi = ElementalAttack("Fire", "Agi", 3, 40, 1, 0.99)
 #ICE
 Bufu = ElementalAttack("Ice", "Bufu", 4, 40, 1, 0.99, "Freeze", 0.15)
 #ELECTRIC
-Zio = ElementalAttack("Electric", "Zio", 4, 40, 2, 0.99, "Shock", 0.15)
+Zio = ElementalAttack("Electric", "Zio", 4, 40, 2, 0.99, "Shock", 0.9)
 Ziodyne = ElementalAttack("Electric", "Ziodyne", 14, 220, 1, 0.99, "Shock", 0.15)
 #WIND
 Garu = ElementalAttack("Wind", "Garu", 3, 40, 1, 0.99)
@@ -471,7 +497,7 @@ Orpheus = Persona("Orpheus", [Agi, Bufu], {"Fire": "resist", "Electric": "weak",
 Arsene = Persona("Arsene", [Eiha, Bash, Cross_Slash], {"Ice": "weak","Light": "weak", "Dark": "resist"}, 2, 2, 2, 3, 1)
 Izanagi = Persona("Izanagi", [Zio, Cross_Slash], {"Electric": "resist", "Wind": "weak", "Dark": "null"}, 3, 2, 2, 3, 2)
 
-Cerberus = Persona("Cerberus",[Agi, Eiha, Megido],{"Ice": "weak", "Light": "null", "Dark": "resist"},25, 24, 21, 29, 19)
+Cerberus = Persona("Cerberus",[Zio, Agi, Eiha, Megido],{"Ice": "weak", "Light": "null", "Dark": "resist"},25, 24, 21, 29, 19)
 Penthesilea = Persona("Penthesilea",[Bufu, Bash, Cross_Slash],{"Fire": "weak", "Ice": "resist"},13, 17, 11, 15, 11)
 
 
