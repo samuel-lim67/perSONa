@@ -26,7 +26,7 @@ Are you ready to enter the next battle?
 What would you like to do?
 1 - Inspect {MainCharacter.name}
 2 - Inspect Personas
-3 - Use Items
+3 - Check Inventory
 4 - Change Slots
 5 - Next Battle
 """)
@@ -62,9 +62,7 @@ Agility: {MainCharacter.personas[selection-1].agility}
 Luck: {MainCharacter.personas[selection-1].luck}
 """)
       elif menu == "3":
-        print("not yet implemented")
-        pass
-
+        MainCharacter.check_inventory()
       elif menu == "4":
           MainCharacter.switch_slots()
       elif menu == "5":
