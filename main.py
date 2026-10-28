@@ -4,7 +4,7 @@ from selection import character_selector
 from level2 import create_level2_combatants
 from level3 import create_level3_combatants
 
-MainCharacter = Player("Prog", 300, 300, 20, 100, 100, [])
+MainCharacter = Player("Yuki", 300, 300, 20, 100, 100, [])
 Enemy = NPC("TestDummy1", 200, 200, 20, 100 ,100, "Enemy", [Cerberus])
 Ally = NPC("TestAlly1", 200, 200, 20, 100, 100, "Ally", [Penthesilea])
 

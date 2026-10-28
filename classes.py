@@ -44,20 +44,24 @@ def calculate_damage(skill, persona, target_persona, enemy):
         offense = persona.magic
     else:
         return 0, "No effect."
-    damage = 2 * math.sqrt(skill.effect * 15 * offense / enemy.defense)
+
+    damage = 2 * math.sqrt(
+        skill.effect * 15 * offense / enemy.defense)
+
     affinity = target_persona.affinity.get(skill.element, "neutral")
-    effectivness = "It was normal effectiveness."
+    effectiveness = "It was normal effectiveness."
+
     if affinity == "weak":
-        effectivness = "It was very effective!"
+        effectiveness = "It was very effective!"
         damage *= 1.5
     elif affinity == "resist":
-        effectivness = "It wasn't very effective..."
+        effectiveness = "It wasn't very effective..."
         damage *= 0.5
     elif affinity == "null":
-        effectivness = "It had no effect."
-        return 0, effectivness
+        effectiveness = "It had no effect."
+        return 0, effectiveness
 
-    return round(damage), effectivness
+    return round(damage), effectiveness
 
 def check_effectiveness(effectiveness, enemy):
     if enemy.curhp <= 0:
@@ -247,28 +251,6 @@ class Persona:
     def get_agility(self):
         return self.agility
 
-class Item:
-    def __init__(self, name, quantity, stat_type , effect, duration,price):
-        self.name = name
-        self.quantity = quantity
-        self.type = stat_type
-        self.effect = effect
-        self.duration = duration
-        self.price = price
-
-shop_items = {"Medicine": Item("Medicine",1,"health",50,0,30),
-              "SP Bead": Item("SP Bead",1,"sp",50,0,25),
-              "Guard Charm": Item("Guard Charm",1,"defense",50,2,35)}
-
-def add_item(player,item):
-    for owned_item in player.inventory:
-        #loop to check if there's an existing item
-        if owned_item == item.name:
-            owned_item.quantity += item.quantity
-            return
-            
-    player.inventory.append(item)
-
 
 #PHYSICAL
 Assault_Dive = PhysicalAttack("Strike", "Assault Dive", 0.12, 120, 1, 0.88, 0.13)
@@ -302,6 +284,7 @@ Izanagi = Persona("Izanagi", [Zio, Cross_Slash, ], {"Electric": "resist", "Wind"
 
 Cerberus = Persona("Cerberus",[Agi, Eiha, Megido],{"Ice": "weak", "Light": "null", "Dark": "resist"},25, 24, 21, 29, 19)
 Penthesilea = Persona("Penthesilea",[Bufu],{"Fire": "weak", "Ice": "resist"},13, 17, 11, 15, 11)
+
 
 
 #FINAL BOSS IS MARA
