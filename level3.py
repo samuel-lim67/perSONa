@@ -1,5 +1,6 @@
-from classes import Character, Player, Skill, Orpheus, Arsene, Izanagi, Cerberus, NPC, Penthesilea
+from classes import Character, Player, Skill, Orpheus, Arsene, Izanagi, Cerberus, NPC, Penthesilea, Persona, ElementalAttack, PhysicalAttack
 from battle import battle_loop
+from selection import character_selector
 
 starting_characters = [Orpheus, Arsene, Izanagi, Cerberus, Penthesilea]
 
@@ -55,30 +56,30 @@ def create_level3_combatants(MainCharacter):
     MainCharacter.cursp = MainCharacter.maxsp
     Bufudyne = ElementalAttack(
         element="Ice", name="Bufudyne", cost=16, effect=35, 
-        targets="Single", accuracy=95, 
+        targets=1, accuracy=95, 
         sideeffecttype="Freeze", sideeffectchance=0.10)
     
     Mabufula = ElementalAttack(
         element="Ice", name="Mabufula", cost=16, effect=20, 
-        targets="All", accuracy=90, 
+        targets=2, accuracy=90, 
         sideeffecttype="Freeze", sideeffectchance=0.05)
     
     Concentrate = ElementalAttack(
-        element="Support", name="Concentrate", cost=15, effect=2.0, 
-        targets="Self", accuracy=100,sideeffectchance=0.05)
+        element="Ice", name="Concentrate", cost=15, effect=2.0, 
+        targets=1, accuracy=100,sideeffectchance=0.05)
 
     Garula = ElementalAttack(
         element="Wind", name="Garula", cost=6, effect=25, 
-        targets="Single", accuracy=99, 
+        targets=1, accuracy=99, 
         sideeffecttype="None", sideeffectchance=0.00)
     
     Masukukaja = ElementalAttack(
-        element="Support", name="Masukukaja", cost=24, effect=15, 
-        targets="All", accuracy=100,sideeffectchance=0.00)
+        element="Wind", name="Masukukaja", cost=24, effect=15, 
+        targets=2, accuracy=100,sideeffectchance=0.00)
     
     Dekaja = ElementalAttack(
-        element="Support", name="Dekaja", cost=10, effect=0, 
-        targets="All", accuracy=100,sideeffectchance=0.00)
+        element="Wind", name="Dekaja", cost=10, effect=0, 
+        targets="2", accuracy=100,sideeffectchance=0.00)
         
     Magical_Magus = Persona("Magical Magus", [Bufudyne, Mabufula, Concentrate], {"Pierce": "resist", "Fire": "weak"}, 23, 28, 20, 24, 15)
     Anzu = Persona("Hierophant", [Garula, Masukukaja, Dekaja], {"Wind": "resist", "Lightning": "weak"}, 14, 18, 15, 21, 14)
@@ -89,7 +90,6 @@ def create_level3_combatants(MainCharacter):
             maxhp=150,
             currenthp=150,
             defense=20,
-            agility=20,
             maxsp=100,
             cursp=100,
             classification="Ally",
@@ -101,7 +101,6 @@ def create_level3_combatants(MainCharacter):
         maxhp=250,
         currenthp=250,
         defense=20,
-        agility=20,
         maxsp=100,
         cursp=100,
         classification="Enemy",
@@ -113,7 +112,6 @@ def create_level3_combatants(MainCharacter):
         maxhp=250,
         currenthp=250,
         defense=15,
-        agility=20,
         maxsp=80,
         cursp=80,
         classification="Enemy",
