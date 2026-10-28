@@ -1,10 +1,13 @@
-from classes import Character, Player, Skill, Orpheus, Arsene, Izanagi, Cerberus, NPC, Penthesilea, PhysicalAttack, ElementalAttack, Persona, medicine
+from classes import Player, Skill, Orpheus, Arsene, Izanagi, Cerberus, NPC, Penthesilea, PhysicalAttack, ElementalAttack, Persona, medicine
 from battle import battle_loop
-from level2 import create_level2_combatants
-from level3 import create_level3_combatants
+from level1 import level_1
+from level2 import level_2
+from level3 import level_3
+from level4 import level_4
+from level5 import level_5
 from level10 import level_10
 from shop import shop_call
-MainCharacter = Player("Prog", 4000, 4000, 400, 50, 100, 100, [Cerberus, Penthesilea], None, [medicine])
+Makoto = Player(name="Makoto Yuki", maxhp=100, currenthp=100, defense=50, agility=10, maxsp=30, cursp=30, personas=[])
 Enemy = NPC("TestDummy1", 200, 200, 20, 100, 100 ,100, "Enemy", [Cerberus])
 Ally = NPC("TestAlly1", 200, 200, 20, 50, 100, 100, "Ally", [Penthesilea])
 
@@ -21,11 +24,6 @@ Mara = Persona("Mara", [myriad_arrows, primal_force, maralagidyne, heat_wave], {
 #ENEMIES
 Hastur = NPC("Hastur", 1500, 1500, 1, 50, 500, 500, "Enemy", [Mara], status_effect = None)
 
-level_10_combatants = [MainCharacter, Hastur]
-
-
-combatants = [MainCharacter, Enemy, Ally]
-
 starting_characters = [Orpheus, Arsene, Izanagi]
 
 def intermission():
@@ -41,7 +39,7 @@ Are you ready to enter the next battle?
     while True:
       menu = input(f"""
 What would you like to do?
-1 - Inspect {MainCharacter.name}
+1 - Inspect {Makoto.name}
 2 - Inspect Personas
 3 - Check Inventory
 4 - Change Slots
@@ -49,13 +47,13 @@ What would you like to do?
 """)
       if menu == "1": #inspects the player themselves
         print(f"""
-Name: {MainCharacter.name}
-HP: {MainCharacter.curhp}/{MainCharacter.maxhp}
-Skill Points: {MainCharacter.cursp}/{MainCharacter.maxsp}
-Personas: {', '.join(persona.name for persona in MainCharacter.personas)}""")
+Name: {Makoto.name}
+HP: {Makoto.curhp}/{Makoto.maxhp}
+Skill Points: {Makoto.cursp}/{Makoto.maxsp}
+Personas: {', '.join(persona.name for persona in Makoto.personas)}""")
 
       elif menu == "2": #inspect personas
-        for index, persona in enumerate(MainCharacter.personas):
+        for index, persona in enumerate(Makoto.personas):
             print(f"{index+1}. {persona.name}")
         try:
           selection = int(input("Please select a persona to inspect\n"))
@@ -68,20 +66,20 @@ Personas: {', '.join(persona.name for persona in MainCharacter.personas)}""")
             continue
           else:
             print(f"""
-Persona: {MainCharacter.personas[selection-1].name}
-Skills: {', '.join(skill.name for skill in MainCharacter.personas[selection-1].skills)}
+    Persona: {Makoto.personas[selection-1].name}
+Skills: {', '.join(skill.name for skill in Makoto.personas[selection-1].skills)}
 ---------
-Affinity: {MainCharacter.personas[selection-1].affinity}
-Strength: {MainCharacter.personas[selection-1].strength}
-Magic: {MainCharacter.personas[selection-1].magic}
-Endurance: {MainCharacter.personas[selection-1].endurance}
-Agility: {MainCharacter.personas[selection-1].agility}
-Luck: {MainCharacter.personas[selection-1].luck}
+Affinity: {Makoto.personas[selection-1].affinity}
+Strength: {Makoto.personas[selection-1].strength}
+Magic: {Makoto.personas[selection-1].magic}
+Endurance: {Makoto.personas[selection-1].endurance}
+Agility: {Makoto.personas[selection-1].agility}
+Luck: {Makoto.personas[selection-1].luck}
 """)
       elif menu == "3":
-        MainCharacter.check_inventory()
+        Makoto.check_inventory()
       elif menu == "4":
-          MainCharacter.switch_slots()
+          Makoto.switch_slots()
       elif menu == "5":
         print("Moving to the next battle...")
         break
@@ -91,11 +89,30 @@ Luck: {MainCharacter.personas[selection-1].luck}
 
 def main():
     while True:
-      MainCharacter.character_selector(starting_characters)
-      intermission()
-      shop_call()
-      create_level2_combatants(MainCharacter)
-      level_10(level_10_combatants)
+        Makoto.character_selector(starting_characters)
+        intermission()
+        if level_1(Makoto):
+            intermission()
+            if level_2(Makoto):
+                intermission()
+                if level_3(Makoto):
+                    intermission()
+                    if level_4(Makoto):
+                        intermission()
+                        if level_5(Makoto):
+                            intermission()
+
+        while True:
+            print("Start again? Y/N")
+            start_over = input()
+            if start_over.strip().lower() == "y":
+                break
+            elif start_over.strip().lower() == "n":
+                return
+            else:
+                print("Please enter a valid input!")
+                continue
+
 
 if __name__ == "__main__":
     main()

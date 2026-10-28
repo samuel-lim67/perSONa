@@ -1,6 +1,8 @@
 import random
 import math
 
+
+
 def target_selector(enemies):
     alive_enemies = alive_characters(enemies)
     targets = []
@@ -512,7 +514,7 @@ def add_item(player,item):
 Assault_Dive = PhysicalAttack("Strike", "Assault Dive", 0.12, 120, 1, 0.88, 0.13)
 Cross_Slash = PhysicalAttack("Slash", "Cross Slash", 0.18, 150, 1, 0.99, 0.13)
 Bash = PhysicalAttack("Strike", "Bash", 0.07, 50, 1, 0.9, 0.08)
-
+Cleave = PhysicalAttack("Slash", "Cleave", 0.07, 30, 1, 0.9, 0.1)
 #FIRE
 Agi = ElementalAttack("Fire", "Agi", 3, 40, 1, 0.99)
 #ICE
@@ -534,8 +536,8 @@ Dia = Skill("Healing", "Dia", 3, 50, 1, 1)
 Marakukaja = Skill("Support", "Marakukaja", 24, 0.4, 1, 1)
 #Tarunda
 
-Orpheus = Persona("Orpheus", [Agi, Bufu], {"Fire": "resist", "Electric": "weak", "Dark": "weak"}, 2, 2, 2, 3, 2)
-Arsene = Persona("Arsene", [Eiha, Bash, Cross_Slash], {"Ice": "weak","Light": "weak", "Dark": "resist"}, 2, 2, 2, 3, 1)
+Orpheus = Persona("Orpheus", [Agi, Bash], {"Fire": "resist", "Electric": "weak", "Dark": "weak"}, 2, 2, 2, 3, 2)
+Arsene = Persona("Arsene", [Eiha, Cleave], {"Ice": "weak","Light": "weak", "Dark": "resist"}, 2, 2, 2, 3, 1)
 Izanagi = Persona("Izanagi", [Zio, Cross_Slash], {"Electric": "resist", "Wind": "weak", "Dark": "null"}, 3, 2, 2, 3, 2)
 
 Cerberus = Persona("Cerberus",[Zio, Agi, Eiha, Megido],{"Ice": "weak", "Light": "null", "Dark": "resist"},25, 24, 21, 29, 19)
