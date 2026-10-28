@@ -1,11 +1,28 @@
-from classes import Character, Player, Skill, Orpheus, Arsene, Izanagi, Cerberus, NPC, Penthesilea
+from classes import Character, Player, Skill, Orpheus, Arsene, Izanagi, Cerberus, NPC, Penthesilea, PhysicalAttack, ElementalAttack, Persona, medicine
 from battle import battle_loop
 from level2 import create_level2_combatants
 from level3 import create_level3_combatants
-
-MainCharacter = Player("Prog", 300, 300, 20, 50, 100, 100, [Orpheus])
+from level10 import level_10
+from shop import shop_call
+MainCharacter = Player("Prog", 4000, 4000, 400, 50, 100, 100, [Cerberus, Penthesilea], None, [medicine])
 Enemy = NPC("TestDummy1", 200, 200, 20, 100, 100 ,100, "Enemy", [Cerberus])
 Ally = NPC("TestAlly1", 200, 200, 20, 50, 100, 100, "Ally", [Penthesilea])
+
+#LEVEL 10////////////////////////////////////////////
+#SKILLS
+myriad_arrows = PhysicalAttack("Pierce", "Myriad Arrows", 0.19, 80, 4, 0.88, 0.05)
+primal_force = PhysicalAttack("Pierce", "Primal Force", 0.21, 580, 1, 0.95, 0.05)
+maralagidyne = ElementalAttack("Fire", "Maralagidyne", 32, 220, 4, 0.9)
+heat_wave = PhysicalAttack("Strike", "Heat Wave", 0.20, 280, 4, 0.9, 0.1)
+
+#PERSONAS
+Mara = Persona("Mara", [myriad_arrows, primal_force, maralagidyne, heat_wave], {"Strike": "absorb","Fire": "absorb", "Ice": "weak","Light": "weak","Dark": "absorb"}, 60, 50, 50, 48, 39)
+
+#ENEMIES
+Hastur = NPC("Hastur", 1500, 1500, 1, 50, 500, 500, "Enemy", [Mara], status_effect = None)
+
+level_10_combatants = [MainCharacter, Hastur]
+
 
 combatants = [MainCharacter, Enemy, Ally]
 
@@ -76,11 +93,9 @@ def main():
     while True:
       MainCharacter.character_selector(starting_characters)
       intermission()
-      if level_1():
-          intermission()
-          if level_2():
-              intermission()
-              if level_3():
+      shop_call()
+      create_level2_combatants(MainCharacter)
+      level_10(level_10_combatants)
 
 if __name__ == "__main__":
     main()
