@@ -3,7 +3,38 @@ from battle import battle_loop
 from selection import character_selector
 
 def start_lvl2(MainCharacter):
-    print("\n=== LEVEL 2 ===")
+    print("""
+    ==================================================
+                        LEVEL 2
+                      SPLIT PATHS
+    ==================================================
+
+    *Makoto reaches a deserted street, its buildings
+    warped by the strange distortion.*
+
+    Makoto: "This place... it's getting worse."
+
+    *Two Shadows emerge, blocking his path.*
+
+    Makoto: "Fine. I'll deal with you first."
+
+    ==================================================
+    """)
+
+    input("\n[Press Enter to continue...]")
+
+    print("""
+    *As the Shadows close in, Makoto senses
+    a strange power waiting to be awakened.*
+
+    Makoto: "I can't stop here. I need to get stronger."
+
+    ==================================================
+                 MISSION: CLEAR LEVEL 2
+    ==================================================
+    """)
+
+    input("\n[Press Enter to begin the battle...]")
     MainCharacter.curhp = MainCharacter.maxhp
     MainCharacter.cursp = MainCharacter.maxsp
 
