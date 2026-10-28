@@ -81,6 +81,7 @@ def main():
           if level_2():
               intermission()
               if level_3():
+                pass
 
 if __name__ == "__main__":
-   main()
+  main()

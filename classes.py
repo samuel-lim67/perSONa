@@ -422,7 +422,6 @@ class Player(Character):
                 else:
                     print("Please select a valid input!")
 
-
 class NPC(Character):
     def __init__(self, name, maxhp, currenthp, defense, agility, maxsp, cursp, classification, personas = None, status_effect = None):
         super().__init__(name, maxhp, currenthp, defense, agility, maxsp, cursp, personas, status_effect)
