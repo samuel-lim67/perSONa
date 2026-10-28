@@ -4,7 +4,12 @@ from classes import Item, Player, add_item
 small_medicine = Item("Small Medicine",1,"health",15,0,30)
 medium_medicine = Item("Medium Medicine",1,"health",30,0,60)
 large_medicine = Item("Large Medicine",1,"health",45,0,100)
-MainCharacter = Player("Prog", 4000, 4000, 400, 50, 100, 100, [], None, [small_medicine, medium_medicine], 60)
+Bead = Item("Bead", 1, "health", 9999, 0, 300)
+Snuff_Bull = Item("Snuff Bull", 1, "sp", 30, 0, 60)
+SP_Bead = Item("SP Bead", 1, "sp", 50, 0, 100)
+SP_Artifact = Item("SP Artifact", 1, "sp", 100, 0, 100),
+
+
 shop_items = [small_medicine, medium_medicine, large_medicine]
 
 def shop_display():
@@ -47,7 +52,7 @@ Effect: {item.effect}
                 break
             else:
                 print("Please enter a valid input!")
-def buy_items(shop_items):
+def buy_items(shop_items, Makoto):
     while True:
         try:
             selection = int(input("What would you like to buy?\n"))
@@ -55,14 +60,14 @@ def buy_items(shop_items):
             print("Please enter a valid input!")
         else:
             if 1 <= selection <= len(shop_items):
-                if shop_items[selection-1].price > MainCharacter.coins:
+                if shop_items[selection-1].price > Makoto.coins:
                     print("Not enough coins!")
                     continue
                 else:
                     confirm = input(f"Are you sure you want to buy {shop_items[selection-1].name}? Y/N\n")
                     if confirm.strip().lower() == "y":
-                        add_item(MainCharacter, shop_items[selection-1])
-                        MainCharacter.coins -= shop_items[selection-1].price
+                        add_item(Makoto, shop_items[selection-1])
+                        Makoto.coins -= shop_items[selection-1].price
                         print(f"Successfuly bought {shop_items[selection-1].name}! You paid {shop_items[selection-1].price} coins.")
                         return
                     elif confirm.strip().lower() == "n":
@@ -74,18 +79,18 @@ def buy_items(shop_items):
             else:
                 print("Please enter a valid input!")
 
-def decide_action(shop_items):
+def decide_action(shop_items, Makoto):
     while True:
-        print(f"Coins: {MainCharacter.coins}")
+        print(f"Coins: {Makoto.coins}")
         decision = input("What would you like to do?\n1 - Inspect Item\n2 - Buy Item\n3 - Check Inventory\n4 - Move to the next level\n")
         if decision == "1":
             show_items(shop_items)
             inspect_item(shop_items)
         elif decision == "2":
             show_items(shop_items)
-            buy_items(shop_items)
+            buy_items(shop_items, Makoto)
         elif decision == "3":
-            MainCharacter.check_inventory()
+            Makoto.check_inventory()
         elif decision == "4":
             confirm = input("Are you sure you are ready to proceed? Y/N\n")
             if confirm.strip().lower() == "y":
@@ -97,9 +102,9 @@ def decide_action(shop_items):
                 print("Please enter a valid input!")
 
 
-def shop_call():
+def shop_call(Makoto):
     shop_display()
-    decide_action(shop_items)
+    decide_action(shop_items, Makoto)
 
 if __name__ == "__main__":
     shop_call()

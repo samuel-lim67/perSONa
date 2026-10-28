@@ -1,33 +1,86 @@
 from classes import NPC, Persona, PhysicalAttack, ElementalAttack, Cerberus, Penthesilea, Player, medicine
 from battle import battle_loop
 
-#SKILLS
+
+# SKILLS
 myriad_arrows = PhysicalAttack("Pierce", "Myriad Arrows", 0.19, 80, 4, 0.88, 0.05)
 primal_force = PhysicalAttack("Pierce", "Primal Force", 0.21, 580, 1, 0.95, 0.05)
 maralagidyne = ElementalAttack("Fire", "Maralagidyne", 32, 220, 4, 0.9)
-#spirit_drain is tbd once i make support skills
+# Spirit Drain is TBD until support skills are implemented
 heat_wave = PhysicalAttack("Strike", "Heat Wave", 0.20, 280, 4, 0.9, 0.1)
 
-#PERSONA
-Mara = Persona("Mara", [myriad_arrows, primal_force, maralagidyne, heat_wave], {"Strike": "absorb","Fire": "absorb", "Ice": "weak","Light": "weak","Dark": "absorb"}, 60, 50, 50, 48, 39)
 
-#ENEMY
-Hastur = NPC("Hastur", 1500, 1500, 1, 50, 500, 500, "Enemy", [Mara], status_effect = None)
+# PERSONA
+Mara = Persona("Mara", [myriad_arrows, primal_force, maralagidyne, heat_wave], {"Strike": "absorb", "Fire": "absorb", "Ice": "weak", "Light": "weak", "Dark": "absorb"}, 60, 50, 50, 48, 39)
 
-#ignore this cause were only gonna use one throughout the playthrough
-MainCharacter = Player("Prog", 4000, 4000, 400, 50, 100, 100, [Cerberus, Penthesilea], None, [medicine])
 
-combatants = [MainCharacter, Hastur]
+# ENEMY
+Hastur = NPC("Hastur", 1500, 1500, 1, 50, 500, 500, "Enemy", [Mara], status_effect=None)
 
-def level_10(combatants):
-    print("At long last, you reach the top of the tower. All that you've sacrificed along the way have now come to this. Before you stands the figure of a shriveled man, peering down to the city below. You wonder")
+
+# LEVEL 10
+def level_10(MainCharacter):
+    print("""
+       ==================================================
+                       LEVEL 10
+                    THE HOUR OF JUDGMENT
+       ==================================================
+
+
+       *The reunited SEES finally meet their journey’s end. What stands in front of them is the accumulation of humanities dread and fears. The fate of the world sits in your hands, do not fail us now.*
+
+
+       Yukari: "Wait… No way, that thing is massive!"
+
+
+       Junpei: "Talk about overcompensating! What kind of nightmare spawn is that?!."
+
+
+       Akihiko: “...Don’t let its appearance fool you. That mass of energy is radiating enough power
+                 to level a city block. Stay Sharp!!!”
+
+
+       Makoto: "You… So it’s you that caused all of this!."
+
+
+       *Mara, The Great King, towers over the battlefield, casting an overwhelming shadow across all of SEES! Do you have what it takes? Will you step on up to battle?*
+       """)
+
+    input("\n[Press Enter to continue...]")
+
+    print("""
+       *Good. Prove it…”
+       """)
+
+    # Restore the main character
+    MainCharacter.curhp = MainCharacter.maxhp
+    MainCharacter.cursp = MainCharacter.maxsp
+
+    # Reset the final enemy
+    Hastur.curhp = Hastur.maxhp
+    Hastur.cursp = Hastur.maxsp
+
+    combatants = [MainCharacter, Hastur]
+
     status = battle_loop(combatants)
+
     if status == "Win":
-        print("some dialogue here")
+        print("""
+        *The avatar of Death has fallen.*
+
+        *The core of Tartarus grows silent.
+        For the first time, tomorrow feels possible.*
+
+        LEVEL 10 CLEARED!
+        """)
+        return True
+
     elif status == "Lose":
         print("GAME OVER")
+        return False
 
-
+    else:
+        return False
 
 if __name__ == "__main__":
-    level_10(combatants)
+    level_10()
