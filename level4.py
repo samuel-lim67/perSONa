@@ -12,7 +12,6 @@ Power_Slash = PhysicalAttack("Slash", "Power Slash", 0.1, 80, 1, 0.9, 0.10)
 Agidyne = ElementalAttack("Fire", "Agidyne", 14, 220, 1, 0.99)
 Deathbound = PhysicalAttack("Slash", "Deathbound", 0.25, 130, 4, 0.9, 0.05)
 
-
 # PERSONAS
 Venus_Eagle = Persona("Venus Eagle", [Slash_Attack, Power_Slash], {"Slash": "resist", "Electric": "weak"}, 12, 18, 10, 24, 12)
 Venus_Eagle.arcana = "Lovers"

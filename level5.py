@@ -10,7 +10,6 @@ Swift_Strike = PhysicalAttack("Strike", "Swift Strike", 0.12, 50, 4, 0.90, 0.05)
 Bufula = ElementalAttack("Ice", "Bufula", 8, 100, 1, 0.99, "Freeze", 0.10)
 Mabufula = ElementalAttack("Ice", "Mabufula", 14, 80, 4, 0.99, "Freeze", 0.08)
 
-
 # PERSONAS
 Castor = Persona("Castor", [Fatal_End, Blade_of_Fury, Heat_Wave], {"Strike": "resist"}, 30, 14, 24, 18, 14)
 Castor.arcana = "Hierophant"
