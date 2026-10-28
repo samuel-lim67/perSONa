@@ -16,8 +16,8 @@ Anzu = Persona("Hierophant", [Garula, Masukukaja, Dekaja], {"Wind": "resist", "L
 
 # COMBATANTS
 Yukari_Takeba = NPC("Yukari Takeba", 150, 150, 20, 30, 100, 100, "Ally", [Izanagi])
-Dancing_Hand = NPC("Dancing Hand", 250, 250, 20, 30, 100, 100, "Enemy", [Magical_Magus])
-Avian_Grandmaster = NPC("Avian Grandmaster", 250, 250, 15, 30, 80, 80, "Enemy", [Anzu])
+Dancing_Hand = NPC("Dancing Hand", 100, 100, 20, 10, 100, 100, "Enemy", [Magical_Magus])
+Avian_Grandmaster = NPC("Avian Grandmaster", 100, 100, 15, 10, 80, 80, "Enemy", [Anzu])
 
 level3_addcharacters = [Magical_Magus, Anzu]
 

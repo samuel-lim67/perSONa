@@ -106,7 +106,6 @@ def level_5(MainCharacter):
 
     combatants = [
         MainCharacter,
-        Makoto_Yuki,
         Yukari_Takeba,
         Calm_Basalt,
         Raging_Facade,

@@ -84,7 +84,7 @@ def level_4(MainCharacter):
     FatalTurret.curhp = FatalTurret.maxhp
     FatalTurret.cursp = FatalTurret.maxsp
 
-    combatants = [MainCharacter, MakotoYuki, WildDrive, TranceTwins, FatalTurret]
+    combatants = [MainCharacter, WildDrive, TranceTwins, FatalTurret]
 
     status = battle_loop(combatants)
 

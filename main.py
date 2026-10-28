@@ -5,26 +5,20 @@ from level2 import level_2
 from level3 import level_3
 from level4 import level_4
 from level5 import level_5
+from level6 import level_6
+from level7 import level_7
+from level8 import level_8
+from level9 import level_9
 from level10 import level_10
 from shop import shop_call
-Makoto = Player(name="Makoto Yuki", maxhp=100, currenthp=100, defense=50, agility=10, maxsp=30, cursp=30, personas=[])
-Enemy = NPC("TestDummy1", 200, 200, 20, 100, 100 ,100, "Enemy", [Cerberus])
-Ally = NPC("TestAlly1", 200, 200, 20, 50, 100, 100, "Ally", [Penthesilea])
-
-#LEVEL 10////////////////////////////////////////////
-#SKILLS
-myriad_arrows = PhysicalAttack("Pierce", "Myriad Arrows", 0.19, 80, 4, 0.88, 0.05)
-primal_force = PhysicalAttack("Pierce", "Primal Force", 0.21, 580, 1, 0.95, 0.05)
-maralagidyne = ElementalAttack("Fire", "Maralagidyne", 32, 220, 4, 0.9)
-heat_wave = PhysicalAttack("Strike", "Heat Wave", 0.20, 280, 4, 0.9, 0.1)
-
-#PERSONAS
-Mara = Persona("Mara", [myriad_arrows, primal_force, maralagidyne, heat_wave], {"Strike": "absorb","Fire": "absorb", "Ice": "weak","Light": "weak","Dark": "absorb"}, 60, 50, 50, 48, 39)
-
-#ENEMIES
-Hastur = NPC("Hastur", 1500, 1500, 1, 50, 500, 500, "Enemy", [Mara], status_effect = None)
+Makoto = Player(name="Makoto Yuki", maxhp=333, currenthp=333, defense=50, agility=30, maxsp=60, cursp=30, personas=[])
 
 starting_characters = [Orpheus, Arsene, Izanagi]
+
+def battle_rewards():
+    print("You earned 50 gold!")
+    Makoto.coins += 100
+
 
 def intermission():
   progress_game = input(f"""
@@ -50,7 +44,8 @@ What would you like to do?
 Name: {Makoto.name}
 HP: {Makoto.curhp}/{Makoto.maxhp}
 Skill Points: {Makoto.cursp}/{Makoto.maxsp}
-Personas: {', '.join(persona.name for persona in Makoto.personas)}""")
+Personas: {', '.join(persona.name for persona in Makoto.personas)}
+Coins: {Makoto.coins}""")
 
       elif menu == "2": #inspect personas
         for index, persona in enumerate(Makoto.personas):
@@ -92,15 +87,36 @@ def main():
         Makoto.character_selector(starting_characters)
         intermission()
         if level_1(Makoto):
+            battle_rewards()
             intermission()
             if level_2(Makoto):
+                battle_rewards()
                 intermission()
                 if level_3(Makoto):
+                    battle_rewards()
                     intermission()
                     if level_4(Makoto):
+                        battle_rewards()
                         intermission()
                         if level_5(Makoto):
+                            battle_rewards()
+                            shop_call(Makoto)
                             intermission()
+                            if level_6(Makoto):
+                                battle_rewards()
+                                intermission()
+                                if level_7(Makoto):
+                                    battle_rewards()
+                                    intermission()
+                                    if level_8(Makoto):
+                                        battle_rewards()
+                                        intermission()
+                                    if level_9(Makoto):
+                                        battle_rewards()
+                                        intermission()
+                                        if level_10(Makoto):
+                                            print("Congratulations, you have successfully reached the final destination!")
+                                            return
 
         while True:
             print("Start again? Y/N")

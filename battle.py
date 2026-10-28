@@ -5,17 +5,17 @@ def alive_characters(combatants):
     alive_combatants = [character for character in combatants if character.curhp > 0]
     return alive_combatants
 
+def get_agility(pair):
+    return pair[0].agility
+
 def calculate_turn_order(living_combatants):
-    personas = {}
+    personas = []
+
     for character in living_combatants:
         for persona in character.personas:
-            personas[persona] = character
-    sorted_order = sorted(list(personas), key=Persona.get_agility, reverse=True)
-    move_order = []
-    for persona in sorted_order:
-        pair = (persona, personas[persona])
-        move_order.append(pair)
-    return move_order
+            personas.append((persona, character))
+    sorted_order = sorted(personas, key=get_agility, reverse=True)
+    return sorted_order
 
 def sort_combatants(combatants):
     allies = []

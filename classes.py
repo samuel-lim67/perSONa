@@ -1,8 +1,6 @@
 import random
 import math
 
-
-
 def target_selector(enemies):
     alive_enemies = alive_characters(enemies)
     targets = []
@@ -233,7 +231,22 @@ class Player(Character):
                 else:
                     self.curhp += healing
                     print(f"{self.name} used {item.name} and healed {healing} HP")
-            self.consume_item(item)
+                self.consume_item(item)
+        elif item.type == "sp":
+            if self.cursp == self.maxsp:
+                print("It failed!")
+            else:
+                healing = item.effect
+                missing_sp = round(self.maxsp - self.cursp, 1)
+                if healing > missing_sp:
+                    self.cursp += missing_sp
+                    print(f"{self.name} used {item.name} and healed {missing_sp} SP")
+                else:
+                    self.cursp += healing
+                    print(f"{self.name} used {item.name} and healed {healing} SP")
+                self.consume_item(item)
+
+
 
     def consume_item(self, item):
         item.quantity -= 1
@@ -472,7 +485,11 @@ class NPC(Character):
                     self.cost_calculator(skill_to_use)
 
             else:
-                print("Not enough SP!")
+                damage = 25  # placeholder for base attack calculation
+                target_persona, enemy = npc_target_selector(targets)
+                enemy.curhp -= damage
+                print(f"{self.name} used a basic attack on {enemy.name} for 25 damage!")
+                turn_ = False
 
 class Persona:
     def __init__(self, name, skills, affinity, strength, magic, endurance, agility, luck):
@@ -484,9 +501,6 @@ class Persona:
         self.endurance = endurance
         self.agility = agility
         self.luck = luck
-
-    def get_agility(self):
-        return self.agility
 
 class Item:
     def __init__(self, name, quantity, stat_type , effect, duration,price):

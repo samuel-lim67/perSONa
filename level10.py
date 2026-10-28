@@ -21,27 +21,36 @@ Hastur = NPC("Hastur", 1500, 1500, 1, 50, 500, 500, "Enemy", [Mara], status_effe
 # LEVEL 10
 def level_10(MainCharacter):
     print("""
-    ==================================================
-                 LEVEL 10: THE HOUR OF JUDGMENT
-    ==================================================
+       ==================================================
+                       LEVEL 10
+                    THE HOUR OF JUDGMENT
+       ==================================================
 
-    *The descent culminates at the core of Tartarus.*
 
-    *Here, SEES faces the avatar of Death itself.
-    The fate of humanity hangs in the balance.*
+       *The reunited SEES finally meet their journey’s end. What stands in front of them is the accumulation of humanities dread and fears. The fate of the world sits in your hands, do not fail us now.*
 
-    Makoto: "So this is where it ends..."
 
-    *Before you stands the source of the darkness
-    threatening to consume the city.*
+       Yukari: "Wait… No way, that thing is massive!"
 
-    Makoto: "We won't let you take away our tomorrow.
-    Everyone, get ready!"
 
-    ==================================================
-    """)
+       Junpei: "Talk about overcompensating! What kind of nightmare spawn is that?!."
 
-    input("\n[Press Enter to face the final enemy...]")
+
+       Akihiko: “...Don’t let its appearance fool you. That mass of energy is radiating enough power
+                 to level a city block. Stay Sharp!!!”
+
+
+       Makoto: "You… So it’s you that caused all of this!."
+
+
+       *Mara, The Great King, towers over the battlefield, casting an overwhelming shadow across all of SEES! Do you have what it takes? Will you step on up to battle?*
+       """)
+
+    input("\n[Press Enter to continue...]")
+
+    print("""
+       *Good. Prove it…”
+       """)
 
     # Restore the main character
     MainCharacter.curhp = MainCharacter.maxhp
