@@ -1,10 +1,27 @@
-from classes import Character, Player, Skill, Orpheus, Arsene, Izanagi, Cerberus, NPC, Penthesilea, Persona, ElementalAttack, PhysicalAttack
+from classes import Character, Player, Skill, Orpheus, Arsene, Izanagi, Cerberus, NPC, Penthesilea, ElementalAttack, PhysicalAttack, Persona
 from battle import battle_loop
-from selection import character_selector
 
-starting_characters = [Orpheus, Arsene, Izanagi, Cerberus, Penthesilea]
 
-def start_lvl3(MainCharacter):
+
+# SKILLS
+Bufudyne = ElementalAttack("Ice", "Bufudyne", 16, 35, 1, 0.95, "Freeze", 0.10)
+Mabufula = ElementalAttack("Ice", "Mabufula", 16, 20, 4, 0.90, "Freeze", 0.05)
+Garula = ElementalAttack("Wind", "Garula", 6, 25, 1, 0.99)
+Masukukaja = ElementalAttack("Support", "Masukukaja", 24, 15, 4, 1.00)
+Dekaja = ElementalAttack("Support", "Dekaja", 10, 0, 4, 1.00)
+
+# PERSONAS
+Magical_Magus = Persona("Magical Magus", [Bufudyne, Mabufula], {"Pierce": "resist", "Fire": "weak"}, 23, 28, 20, 24, 15)
+Anzu = Persona("Hierophant", [Garula, Masukukaja, Dekaja], {"Wind": "resist", "Lightning": "weak"}, 14, 18, 15, 21, 14)
+
+# COMBATANTS
+Yukari_Takeba = NPC("Yukari Takeba", 150, 150, 20, 30, 100, 100, "Ally", [Izanagi])
+Dancing_Hand = NPC("Dancing Hand", 100, 100, 20, 10, 100, 100, "Enemy", [Magical_Magus])
+Avian_Grandmaster = NPC("Avian Grandmaster", 100, 100, 15, 10, 80, 80, "Enemy", [Anzu])
+
+level3_addcharacters = [Magical_Magus, Anzu]
+
+def level_3(MainCharacter):
     print("""
     ==================================================
                         LEVEL 3
@@ -28,10 +45,11 @@ def start_lvl3(MainCharacter):
 
     print("""
     *An unfamiliar power awakens within Makoto.*
-    Makoto: "Another Persona...?""")
+    Makoto: "Another Persona...?"
+    """)
 
     input("\n[Press Enter to choose your Persona...]")
-    character_selector(starting_characters, MainCharacter)
+    MainCharacter.character_selector(level3_addcharacters)
 
     print("""
     *Someone calls out from the darkness.*
@@ -50,73 +68,21 @@ def start_lvl3(MainCharacter):
 
     input("\n[Press Enter to begin the battle...]")
 
-def create_level3_combatants(MainCharacter):
-    start_lvl3(MainCharacter)
     MainCharacter.curhp = MainCharacter.maxhp
     MainCharacter.cursp = MainCharacter.maxsp
-    Bufudyne = ElementalAttack(
-        element="Ice", name="Bufudyne", cost=16, effect=35, 
-        targets=1, accuracy=95, 
-        sideeffecttype="Freeze", sideeffectchance=0.10)
-    
-    Mabufula = ElementalAttack(
-        element="Ice", name="Mabufula", cost=16, effect=20, 
-        targets=2, accuracy=90, 
-        sideeffecttype="Freeze", sideeffectchance=0.05)
-    
-    Concentrate = ElementalAttack(
-        element="Ice", name="Concentrate", cost=15, effect=2.0, 
-        targets=1, accuracy=100,sideeffectchance=0.05)
 
-    Garula = ElementalAttack(
-        element="Wind", name="Garula", cost=6, effect=25, 
-        targets=1, accuracy=99, 
-        sideeffecttype="None", sideeffectchance=0.00)
-    
-    Masukukaja = ElementalAttack(
-        element="Wind", name="Masukukaja", cost=24, effect=15, 
-        targets=2, accuracy=100,sideeffectchance=0.00)
-    
-    Dekaja = ElementalAttack(
-        element="Wind", name="Dekaja", cost=10, effect=0, 
-        targets="2", accuracy=100,sideeffectchance=0.00)
-        
-    Magical_Magus = Persona("Magical Magus", [Bufudyne, Mabufula, Concentrate], {"Pierce": "resist", "Fire": "weak"}, 23, 28, 20, 24, 15)
-    Anzu = Persona("Hierophant", [Garula, Masukukaja, Dekaja], {"Wind": "resist", "Lightning": "weak"}, 14, 18, 15, 21, 14)
-    
-    Yukari_Takeba = NPC(
-            #Ally1
-            name="Yukari Takeba",
-            maxhp=150,
-            currenthp=150,
-            defense=20,
-            maxsp=100,
-            cursp=100,
-            classification="Ally",
-            personas=[Izanagi])
-
-    Dancing_Hand = NPC(
-        #enemy1
-        name="Dancing Hand",
-        maxhp=250,
-        currenthp=250,
-        defense=20,
-        maxsp=100,
-        cursp=100,
-        classification="Enemy",
-        personas=[Magical_Magus])
-
-    Avian_Grandmaster = NPC(
-        #enemy2
-        name="Avian Grandmaster",
-        maxhp=250,
-        currenthp=250,
-        defense=15,
-        maxsp=80,
-        cursp=80,
-        classification="Enemy",
-        personas=[Anzu])
-    
     combatants = [MainCharacter, Yukari_Takeba, Dancing_Hand, Avian_Grandmaster]
-    
-    battle_loop(combatants)
+    status = battle_loop(combatants)
+
+    if status == "Win":
+        print("Level 3 cleared!")
+        return True
+    elif status == "Lose":
+        print("GAME OVER")
+        return False
+    else:
+        return False
+
+
+if __name__ == "__main__":
+    level_3()
