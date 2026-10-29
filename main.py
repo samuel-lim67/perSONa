@@ -15,6 +15,24 @@ Makoto = Player(name="Makoto Yuki", maxhp=333, currenthp=333, defense=50, agilit
 
 starting_characters = [Orpheus, Arsene, Izanagi]
 
+print("""
+    ==================================================
+                    Persona 3 Relaod
+                     Save the World
+    ==================================================
+
+    *In order to prevent a great cataclysm, you must 
+    go through 10 levels of challenges to prove your
+    worth and defeat the source of this malice. *
+
+    *You are apart of a team named SEES tasked with 
+    saving the earth, but you were seperated and must
+    reunite within the dungeon. Your persona will 
+    guide the way.*
+
+    ==================================================
+    """)
+
 def battle_rewards():
     print("You earned 50 gold!")
     Makoto.coins += 100
