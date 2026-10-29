@@ -374,6 +374,7 @@ class Player(Character):
             return True
         else:
             while True:
+                print(self.inventory)
                 for index, item in enumerate(self.inventory):
                     print(f"{index + 1} - {item.name} x{item.quantity}")
                 print(f"{len(self.inventory) + 1} - Back")
