@@ -10,7 +10,7 @@ SP_Bead = Item("SP Bead", 1, "sp", 50, 0, 100)
 SP_Artifact = Item("SP Artifact", 1, "sp", 100, 0, 100),
 
 
-shop_items = [small_medicine, medium_medicine, large_medicine]
+shop_items = [small_medicine, medium_medicine, large_medicine, Bead, Snuff_Bull, SP_Bead, SP_Artifact]
 
 def shop_display():
     print(r"""
