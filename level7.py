@@ -24,9 +24,9 @@ Decaying_Titan_Persona.arcana = "Hanged Man"
 
 
 # ENEMIES
-Basalt_Statue = NPC(name="Basalt Statue", maxhp=550, currenthp=550, defense=25, agility=30, maxsp=200, cursp=200, classification="Enemy", personas=[Basalt_Statue_Persona])
-Judgment_Sword = NPC(name="Judgment Sword", maxhp=420, currenthp=420, defense=18, agility=30, maxsp=150, cursp=150, classification="Enemy", personas=[Judgment_Sword_Persona])
-Decaying_Titan = NPC(name="Decaying Titan", maxhp=650, currenthp=650, defense=22, agility=30, maxsp=180, cursp=180, classification="Enemy", personas=[Decaying_Titan_Persona])
+Basalt_Statue = NPC(name="Basalt Statue", maxhp=80, currenthp=80, defense=25, agility=30, maxsp=200, cursp=200, classification="Enemy", personas=[Basalt_Statue_Persona])
+Judgment_Sword = NPC(name="Judgment Sword", maxhp=80, currenthp=80, defense=18, agility=30, maxsp=150, cursp=150, classification="Enemy", personas=[Judgment_Sword_Persona])
+Decaying_Titan = NPC(name="Decaying Titan", maxhp=200, currenthp=200, defense=22, agility=30, maxsp=180, cursp=180, classification="Enemy", personas=[Decaying_Titan_Persona])
 
 
 # LEVEL 7

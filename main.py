@@ -36,6 +36,8 @@ print("""
 def battle_rewards():
     print("You earned 50 gold!")
     Makoto.coins += 100
+    Player.battles_won += 1
+    print("Battles won:", Player.battles_won)
 
 
 def intermission():
