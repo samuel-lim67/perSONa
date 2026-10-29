@@ -21,8 +21,8 @@ White_Rider = Persona("White Rider", [Gigantomachia, Gods_Hand, Vicious_Strike],
 
 # COMBATANTS
 Yukari_Takeba = NPC("Yukari Takeba", 100, 100, 15, 30, 100, 100, "Ally", [Penthesilea])
-Noble_Seeker = NPC("Noble Seeker", 70, 70, 15, 30, 240, 240, "Enemy", [Surtr])
-Steed_Beast = NPC("Steed Beast", 70, 70, 20, 30, 80, 80, "Enemy", [White_Rider])
+Noble_Seeker = NPC("Noble Seeker", 50, 50, 15, 30, 240, 240, "Enemy", [Surtr])
+Steed_Beast = NPC("Steed Beast", 50, 50, 20, 30, 80, 80, "Enemy", [White_Rider])
 
 level6_addcharacters = [Surtr, White_Rider]
 
@@ -69,7 +69,7 @@ def level_6(MainCharacter):
 
 
     input("\n[Press Enter to choose your Persona...]")
-    MainCharacter.character_selector()
+    MainCharacter.character_selector(level6_addcharacters)
 
 
     print("""

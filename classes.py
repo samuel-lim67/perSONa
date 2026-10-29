@@ -553,9 +553,9 @@ Dia = Skill("Healing", "Dia", 3, 50, 1, 1)
 Marakukaja = Skill("Support", "Marakukaja", 24, 0.4, 1, 1)
 #Tarunda
 
-Orpheus = Persona("Orpheus", [Agi, Bufu], {"Fire": "resist", "Electric": "weak", "Dark": "weak"}, 2, 2, 2, 3, 2)
-Arsene = Persona("Arsene", [Eiha, Bash, Cross_Slash], {"Ice": "weak","Light": "weak", "Dark": "resist"}, 2, 2, 2, 3, 1)
-Izanagi = Persona("Izanagi", [Zio, Cross_Slash], {"Electric": "resist", "Wind": "weak", "Dark": "null"}, 3, 2, 2, 3, 2)
+Orpheus = Persona("Orpheus", [Agi, Bufu], {"Fire": "resist", "Electric": "weak", "Dark": "weak"}, 10, 6, 7, 8, 6)
+Arsene = Persona("Arsene", [Eiha, Bash, Cross_Slash], {"Ice": "weak","Light": "weak", "Dark": "resist"}, 10, 6, 7, 8, 6)
+Izanagi = Persona("Izanagi", [Zio, Cross_Slash], {"Electric": "resist", "Wind": "weak", "Dark": "null"}, 10, 6, 7, 8, 6)
 
 Cerberus = Persona("Cerberus",[Zio, Agi, Eiha, Megido],{"Ice": "weak", "Light": "null", "Dark": "resist"},25, 24, 21, 29, 19)
 Penthesilea = Persona("Penthesilea",[Bufu, Bash, Cross_Slash],{"Fire": "weak", "Ice": "resist"},13, 17, 11, 15, 11)

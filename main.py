@@ -11,7 +11,7 @@ from level8 import level_8
 from level9 import level_9
 from level10 import level_10
 from shop import shop_call
-Makoto = Player(name="Makoto Yuki", maxhp=333, currenthp=333, defense=50, agility=30, maxsp=60, cursp=30, personas=[])
+Makoto = Player(name="Makoto Yuki", maxhp=400, currenthp=400, defense=50, agility=30, maxsp=60, cursp=30, personas=[])
 
 starting_characters = [Orpheus, Arsene, Izanagi]
 
@@ -35,7 +35,7 @@ print("""
 
 def battle_rewards():
     print("You earned 50 gold!")
-    Makoto.coins += 50
+    Makoto.coins += 510
     Player.battles_won += 1               
     print("Battles won:", Player.battles_won) 
 
