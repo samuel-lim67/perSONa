@@ -25,9 +25,9 @@ King_Frost.arcana = "Emperor"
 Makoto_Yuki = NPC("Makoto Yuki", 150, 150, 20, 30, 100, 100, "Ally", [Izanagi, Arsene])
 Yukari_Takeba = NPC("Yukari Takeba", 150, 150, 15, 30, 100, 100, "Ally", [Arsene, Penthesilea])
 
-Calm_Basalt = NPC("Calm Basalt", 200, 200, 15, 30, 80, 80, "Enemy", [Castor])
-Raging_Facade = NPC("Raging Facade", 200, 200, 20, 30, 80, 80, "Enemy", [Zouchouten])
-Intrepid_Knight = NPC("Intrepid Knight", 450, 450, 25, 30, 150, 150, "Enemy", [King_Frost])
+Calm_Basalt = NPC("Calm Basalt", 50, 50, 15, 30, 80, 80, "Enemy", [Castor])
+Raging_Facade = NPC("Raging Facade", 50, 50, 20, 30, 80, 80, "Enemy", [Zouchouten])
+Intrepid_Knight = NPC("Intrepid Knight", 100, 100, 25, 30, 150, 150, "Enemy", [King_Frost])
 
 
 # LEVEL 5 PERSONA SELECTION

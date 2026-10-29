@@ -16,8 +16,8 @@ Judgment_Sword_Persona = Persona("Melchizedek", [Brave_Blade, Myriad_Arrows], {"
 
 
 # ENEMIES
-Basalt_Statue = NPC(name="Basalt Statue", maxhp=550, currenthp=550, defense=25, agility=20, maxsp=200, cursp=200, classification="Enemy", personas=[Basalt_Statue_Persona])
-Judgment_Sword = NPC(name="Judgment Sword", maxhp=420, currenthp=420, defense=18, agility=30, maxsp=150, cursp=150, classification="Enemy", personas=[Judgment_Sword_Persona])
+Basalt_Statue = NPC(name="Basalt Statue", maxhp=150, currenthp=150, defense=25, agility=20, maxsp=200, cursp=200, classification="Enemy", personas=[Basalt_Statue_Persona])
+Judgment_Sword = NPC(name="Judgment Sword", maxhp=150, currenthp=150, defense=18, agility=30, maxsp=150, cursp=150, classification="Enemy", personas=[Judgment_Sword_Persona])
 
 
 # LEVEL 8
