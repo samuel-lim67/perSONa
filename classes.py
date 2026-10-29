@@ -215,7 +215,7 @@ class Character:
                     return False
 
 class Player(Character):
-    battles_won = 0
+    battles_won = 0    
     def __init__(self, name, maxhp, currenthp, defense, agility, maxsp, cursp, personas = None, status_effect = None, inventory = None, coins = 0):
         super().__init__(name, maxhp, currenthp, defense, agility, maxsp, cursp, personas, status_effect)
         self.inventory = inventory if inventory is not None else []
@@ -439,6 +439,7 @@ class Player(Character):
                     return
                 else:
                     print("Please select a valid input!")
+
 
 class NPC(Character):
     def __init__(self, name, maxhp, currenthp, defense, agility, maxsp, cursp, classification, personas = None, status_effect = None):
