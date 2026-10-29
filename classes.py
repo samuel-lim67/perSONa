@@ -1,6 +1,8 @@
 import random
 import math
 
+
+
 def target_selector(enemies):
     alive_enemies = alive_characters(enemies)
     targets = []
@@ -231,7 +233,7 @@ class Player(Character):
                 else:
                     self.curhp += healing
                     print(f"{self.name} used {item.name} and healed {healing} HP")
-                self.consume_item(item)
+                self.consume_item(item)  
         elif item.type == "sp":
             if self.cursp == self.maxsp:
                 print("It failed!")
@@ -484,11 +486,7 @@ class NPC(Character):
                     self.cost_calculator(skill_to_use)
 
             else:
-                damage = 25  # placeholder for base attack calculation
-                target_persona, enemy = npc_target_selector(targets)
-                enemy.curhp -= damage
-                print(f"{self.name} used a basic attack on {enemy.name} for 25 damage!")
-                turn_ = False
+                print("Not enough SP!")
 
 class Persona:
     def __init__(self, name, skills, affinity, strength, magic, endurance, agility, luck):
@@ -500,6 +498,10 @@ class Persona:
         self.endurance = endurance
         self.agility = agility
         self.luck = luck
+
+    @staticmethod
+    def get_agility(pair):
+        return pair[0].agility
 
 class Item:
     def __init__(self, name, quantity, stat_type , effect, duration,price):
@@ -527,7 +529,7 @@ def add_item(player,item):
 Assault_Dive = PhysicalAttack("Strike", "Assault Dive", 0.12, 120, 1, 0.88, 0.13)
 Cross_Slash = PhysicalAttack("Slash", "Cross Slash", 0.18, 150, 1, 0.99, 0.13)
 Bash = PhysicalAttack("Strike", "Bash", 0.07, 50, 1, 0.9, 0.08)
-Cleave = PhysicalAttack("Slash", "Cleave", 0.07, 30, 1, 0.9, 0.1)
+
 #FIRE
 Agi = ElementalAttack("Fire", "Agi", 3, 40, 1, 0.99)
 #ICE
@@ -549,15 +551,15 @@ Dia = Skill("Healing", "Dia", 3, 50, 1, 1)
 Marakukaja = Skill("Support", "Marakukaja", 24, 0.4, 1, 1)
 #Tarunda
 
-Orpheus = Persona("Orpheus", [Agi, Bash], {"Fire": "resist", "Electric": "weak", "Dark": "weak"}, 2, 2, 2, 3, 2)
-Arsene = Persona("Arsene", [Eiha, Cleave], {"Ice": "weak","Light": "weak", "Dark": "resist"}, 2, 2, 2, 3, 1)
+Orpheus = Persona("Orpheus", [Agi, Bufu], {"Fire": "resist", "Electric": "weak", "Dark": "weak"}, 2, 2, 2, 3, 2)
+Arsene = Persona("Arsene", [Eiha, Bash, Cross_Slash], {"Ice": "weak","Light": "weak", "Dark": "resist"}, 2, 2, 2, 3, 1)
 Izanagi = Persona("Izanagi", [Zio, Cross_Slash], {"Electric": "resist", "Wind": "weak", "Dark": "null"}, 3, 2, 2, 3, 2)
 
 Cerberus = Persona("Cerberus",[Zio, Agi, Eiha, Megido],{"Ice": "weak", "Light": "null", "Dark": "resist"},25, 24, 21, 29, 19)
 Penthesilea = Persona("Penthesilea",[Bufu, Bash, Cross_Slash],{"Fire": "weak", "Ice": "resist"},13, 17, 11, 15, 11)
 
 
-#FINAL BOSS IS MARA
+#FINAL BOSS IS ZYN
 #charge
 #primal force
 #spirit drain
