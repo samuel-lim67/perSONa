@@ -13,13 +13,13 @@ Deathbound = PhysicalAttack("Slash", "Deathbound", 0.22, 180, 4, 0.85, 0.12)
 
 
 # PERSONAS
-Basalt_Statue_Persona = Persona("Daisoujou", [Megiddo, Maragidyne], {"Phys": "resist", "Fire": "null", "Curse": "weak"}, 18, 26, 28, 12, 14)
+Basalt_Statue_Persona = Persona("Daisoujou", [Megido, Maragidyne], {"Phys": "resist", "Fire": "null", "Curse": "weak"}, 18, 26, 28, 12, 14)
 Basalt_Statue_Persona.arcana = "Hierophant"
 
 Judgment_Sword_Persona = Persona("Melchizedek", [Brave_Blade, Myriad_Arrows], {"Phys": "resist", "Wind": "weak"}, 28, 12, 16, 26, 18)
 Judgment_Sword_Persona.arcana = "Justice"
 
-Decaying_Titan_Persona = Persona("Hell Biker", [Deathbound, Mamudyne], {"Phys": "resist", "Ice": "weak"}, 26, 20, 24, 14, 10)
+Decaying_Titan_Persona = Persona("Hell Biker", [Deathbound], {"Phys": "resist", "Ice": "weak"}, 26, 20, 24, 14, 10)
 Decaying_Titan_Persona.arcana = "Hanged Man"
 
 
@@ -74,7 +74,7 @@ def level_7(MainCharacter):
     MainCharacter.cursp = MainCharacter.maxsp
 
     yukari_takeba = NPC(name="Yukari Takeba", maxhp=180, currenthp=180, defense=18, agility=30, maxsp=140, cursp=140, classification="Ally", personas=[Penthesilea, Cerberus])
-    junpei_iori = NPC(name="Junpei Iori", maxhp=220, currenthp=220, defense=24, agility=30, maxsp=90, cursp=90, classification="Ally", personas=[Hermes, Arsene])
+    junpei_iori = NPC(name="Junpei Iori", maxhp=220, currenthp=220, defense=24, agility=30, maxsp=90, cursp=90, classification="Ally", personas=[Arsene])
 
     combatants = [MainCharacter, yukari_takeba, junpei_iori, Basalt_Statue, Judgment_Sword, Decaying_Titan]
 
