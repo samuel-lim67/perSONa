@@ -287,7 +287,7 @@ class Player(Character):
                 # skill logic
                 while True:
                     for index, skill in enumerate(persona.skills):
-                        print(f"{index + 1} - {skill.name}")
+                        print(f"{index + 1} - {skill.name} | Element: {skill.element}")
                     print(f"{len(persona.skills) + 1} - Back")
                     try:
                         selection = int(input("Please select a skill\n"))

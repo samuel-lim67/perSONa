@@ -1,4 +1,5 @@
 from classes import Character, Player, Persona, NPC
+import os
 import random
 
 def alive_characters(combatants):
@@ -33,6 +34,7 @@ def battle_loop(combatants):
     battle_active = True
     turn_counter = 1
     while battle_active:
+        os.system('cls' if os.name == 'nt' else 'clear')
         print(f"\n=================== TURN {turn_counter} ===================")
         print("===ALLIES===")
         for ally in allies:
