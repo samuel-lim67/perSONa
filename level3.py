@@ -7,8 +7,8 @@ from battle import battle_loop
 Bufudyne = ElementalAttack("Ice", "Bufudyne", 16, 35, 1, 0.95, "Freeze", 0.10)
 Mabufula = ElementalAttack("Ice", "Mabufula", 16, 20, 4, 0.90, "Freeze", 0.05)
 Garula = ElementalAttack("Wind", "Garula", 6, 25, 1, 0.99)
-Masukukaja = ElementalAttack("Support", "Masukukaja", 24, 15, 4, 1.00)
-Dekaja = ElementalAttack("Support", "Dekaja", 10, 0, 4, 1.00)
+Masukukaja = ElementalAttack("Fire", "Masukukaja", 24, 15, 4, 1.00)
+Dekaja = ElementalAttack("Electric", "Dekaja", 10, 50, 4, 1.00)
 
 # PERSONAS
 Magical_Magus = Persona("Magical Magus", [Bufudyne, Mabufula], {"Pierce": "resist", "Fire": "weak"}, 23, 28, 20, 24, 15)
@@ -70,6 +70,15 @@ def level_3(MainCharacter):
 
     MainCharacter.curhp = MainCharacter.maxhp
     MainCharacter.cursp = MainCharacter.maxsp
+
+    Yukari_Takeba.curhp = Yukari_Takeba.maxhp
+    Yukari_Takeba.cursp = Yukari_Takeba.maxsp
+
+    Dancing_Hand.curhp = Dancing_Hand.maxhp
+    Dancing_Hand.cursp = Dancing_Hand.maxsp
+
+    Avian_Grandmaster.curhp = Avian_Grandmaster.maxhp
+    Avian_Grandmaster.cursp = Avian_Grandmaster.maxsp
 
     combatants = [MainCharacter, Yukari_Takeba, Dancing_Hand, Avian_Grandmaster]
     status = battle_loop(combatants)

@@ -11,13 +11,13 @@ from level8 import level_8
 from level9 import level_9
 from level10 import level_10
 from shop import shop_call, Bead, Snuff_Bull, SP_Bead, SP_Artifact
-Makoto = Player(name="Makoto Yuki", maxhp=333, currenthp=333, defense=50, agility=30, maxsp=60, cursp=30, personas=[], inventory=[Bead, Snuff_Bull, SP_Bead, SP_Artifact])
+Makoto = Player(name="Makoto Yuki", maxhp=333, currenthp=333, defense=50, agility=30, maxsp=60, cursp=60, personas=[], inventory=[])
 
 starting_characters = [Orpheus, Arsene, Izanagi]
 
 print("""
     ==================================================
-                    Persona 3 Relaod
+                    Persona 3 Reload
                      Save the World
     ==================================================
 
@@ -26,7 +26,7 @@ print("""
     worth and defeat the source of this malice. *
 
     *You are apart of a team named SEES tasked with 
-    saving the earth, but you were seperated and must
+    saving the earth, but you were separated and must
     reunite within the dungeon. Your persona will 
     guide the way.*
 
@@ -82,7 +82,7 @@ Coins: {Makoto.coins}""")
           else:
             if 1 <= selection <= len(Makoto.personas):
               print(f"""
-    Persona: {Makoto.personas[selection-1].name}
+Persona: {Makoto.personas[selection-1].name}
 Skills: {', '.join(skill.name for skill in Makoto.personas[selection-1].skills)}
 ---------
 Affinity: {Makoto.personas[selection-1].affinity}

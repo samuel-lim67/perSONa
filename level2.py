@@ -5,10 +5,10 @@ from battle import battle_loop
 # SKILLS
 Agi = ElementalAttack("Fire", "Agi", 4, 15, 1, 95, "Burn", 0.10)
 Maragi = ElementalAttack("Fire", "Maragi", 8, 10, 2, 90, "Burn", 0.05)
-Rakunda = PhysicalAttack("Support", "Rakunda", 8, 20, 1, 100, 0.05)
+Rakunda = PhysicalAttack("Support", "Rakunda", 0.12, 20, 1, 100, 0.05)
 
 Psio = ElementalAttack("Psy", "Psio", 10, 40, 1, 95, "Brainwash", 0.10)
-Assault_Dive = PhysicalAttack("Strike", "Assault Dive", 12, 55, 1, 85, 0.12)
+Assault_Dive = PhysicalAttack("Strike", "Assault Dive", 0.12, 55, 1, 85, 0.12)
 Marakukaja = ElementalAttack("Support", "Marakukaja", 12, 20, 2, 100)
 
 
@@ -61,6 +61,12 @@ def level_2(MainCharacter):
 
     MainCharacter.curhp = MainCharacter.maxhp
     MainCharacter.cursp = MainCharacter.maxsp
+
+    Crying_Tablet.curhp = Crying_Tablet.maxhp
+    Crying_Tablet.cursp = Crying_Tablet.maxsp
+
+    Phantom_Mage.curhp = Phantom_Mage.maxhp
+    Phantom_Mage.cursp = Phantom_Mage.maxsp
 
     combatants = [MainCharacter, Crying_Tablet, Phantom_Mage]
 

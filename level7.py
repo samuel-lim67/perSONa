@@ -24,6 +24,10 @@ Decaying_Titan_Persona.arcana = "Hanged Man"
 
 
 # ENEMIES
+
+yukari_takeba = NPC(name="Yukari Takeba", maxhp=180, currenthp=180, defense=18, agility=30, maxsp=140, cursp=140,
+                    classification="Ally", personas=[Penthesilea, Cerberus])
+junpei_iori = NPC(name="Junpei Iori", maxhp=220, currenthp=220, defense=24, agility=30, maxsp=90, cursp=90,classification="Ally", personas=[Arsene])
 Basalt_Statue = NPC(name="Basalt Statue", maxhp=80, currenthp=80, defense=25, agility=30, maxsp=200, cursp=200, classification="Enemy", personas=[Basalt_Statue_Persona])
 Judgment_Sword = NPC(name="Judgment Sword", maxhp=80, currenthp=80, defense=18, agility=30, maxsp=150, cursp=150, classification="Enemy", personas=[Judgment_Sword_Persona])
 Decaying_Titan = NPC(name="Decaying Titan", maxhp=200, currenthp=200, defense=22, agility=30, maxsp=180, cursp=180, classification="Enemy", personas=[Decaying_Titan_Persona])
@@ -73,8 +77,20 @@ def level_7(MainCharacter):
     MainCharacter.curhp = MainCharacter.maxhp
     MainCharacter.cursp = MainCharacter.maxsp
 
-    yukari_takeba = NPC(name="Yukari Takeba", maxhp=180, currenthp=180, defense=18, agility=30, maxsp=140, cursp=140, classification="Ally", personas=[Penthesilea, Cerberus])
-    junpei_iori = NPC(name="Junpei Iori", maxhp=220, currenthp=220, defense=24, agility=30, maxsp=90, cursp=90, classification="Ally", personas=[Arsene])
+    yukari_takeba.curhp = yukari_takeba.maxhp
+    yukari_takeba.cursp = yukari_takeba.maxsp
+
+    junpei_iori.curhp = junpei_iori.maxhp
+    junpei_iori.cursp = junpei_iori.maxsp
+
+    Judgment_Sword.curhp = Judgment_Sword.maxhp
+    Judgment_Sword.cursp = Judgment_Sword.maxsp
+
+    Decaying_Titan.curhp = Decaying_Titan.maxhp
+    Decaying_Titan.cursp = Decaying_Titan.maxsp
+
+    Basalt_Statue.curhp = Basalt_Statue.maxhp
+    Basalt_Statue.cursp = Basalt_Statue.maxsp
 
     combatants = [MainCharacter, yukari_takeba, junpei_iori, Basalt_Statue, Judgment_Sword, Decaying_Titan]
 

@@ -5,9 +5,9 @@ from battle import battle_loop
 
 
 # SKILLS
-Strike_Attack = PhysicalAttack("Strike", "Strike Attack", 0, 40, 1, 0.95, 0.05)
+Strike_Attack = PhysicalAttack("Strike", "Strike Attack", 0.12, 40, 1, 0.95, 0.05)
 Magaru = ElementalAttack("Wind", "Magaru", 8, 40, 4, 0.99)
-Slash_Attack = PhysicalAttack("Slash", "Slash Attack", 0, 40, 1, 0.95, 0.05)
+Slash_Attack = PhysicalAttack("Slash", "Slash Attack", 0.12, 40, 1, 0.95, 0.05)
 Power_Slash = PhysicalAttack("Slash", "Power Slash", 0.1, 80, 1, 0.9, 0.10)
 Agidyne = ElementalAttack("Fire", "Agidyne", 14, 220, 1, 0.99)
 Deathbound = PhysicalAttack("Slash", "Deathbound", 0.25, 130, 4, 0.9, 0.05)

@@ -7,7 +7,7 @@ large_medicine = Item("Large Medicine",1,"health",45,0,100)
 Bead = Item("Bead", 1, "health", 9999, 0, 300)
 Snuff_Bull = Item("Snuff Bull", 1, "sp", 30, 0, 60)
 SP_Bead = Item("SP Bead", 1, "sp", 50, 0, 100)
-SP_Artifact = Item("SP Artifact", 1, "sp", 100, 0, 100),
+SP_Artifact = Item("SP Artifact", 1, "sp", 100, 0, 100)
 
 
 shop_items = [small_medicine, medium_medicine, large_medicine, Bead, Snuff_Bull, SP_Bead, SP_Artifact]

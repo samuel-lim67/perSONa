@@ -90,14 +90,14 @@ def battle_loop(combatants):
                     if not alive_characters(enemies):
                         print(f"\n🎉 Victory! All enemies have been defeated!")
                         battle_active = False
-                        return "Lose"
+                        return "Win"
 
                     user.npc_turn(persona, enemies)
 
                     if not alive_characters(enemies):
                         print(f"\n🎉 Victory! All enemies have been defeated!")
                         battle_active = False
-                        return "Lose"
+                        return "Win"
 
         turn_counter += 1
     return None

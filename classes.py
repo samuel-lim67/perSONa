@@ -374,7 +374,6 @@ class Player(Character):
             return True
         else:
             while True:
-                print(self.inventory)
                 for index, item in enumerate(self.inventory):
                     print(f"{index + 1} - {item.name} x{item.quantity}")
                 print(f"{len(self.inventory) + 1} - Back")
@@ -449,6 +448,9 @@ class NPC(Character):
 
     def npc_turn(self, persona, targets):
         turn_ = True
+        if self.status_effect == "Burn":
+            self.curhp -= (self.maxhp*0.025)
+            print(f"{self.name} was burned for {(self.maxhp*0.025)}!")
         while turn_:
             print(f"\n--- {self.name}'s Turn ---")
             print(f"Current Persona: {persona.name}")
@@ -456,6 +458,8 @@ class NPC(Character):
             if self.use_skill(skill_to_use):
                 if skill_to_use.targets < 4:
                     for _ in range(skill_to_use.targets):
+                        if not alive_characters(targets):
+                            break
                         target_persona, enemy = npc_target_selector(targets)
                         if self.accuracy_check(skill_to_use, enemy):
                             damage, effectiveness = calculate_damage(skill_to_use, persona, target_persona, enemy)
@@ -538,7 +542,7 @@ Agi = ElementalAttack("Fire", "Agi", 3, 40, 1, 0.99)
 #ICE
 Bufu = ElementalAttack("Ice", "Bufu", 4, 40, 1, 0.99, "Freeze", 0.15)
 #ELECTRIC
-Zio = ElementalAttack("Electric", "Zio", 4, 40, 2, 0.99, "Shock", 0.9)
+Zio = ElementalAttack("Electric", "Zio", 4, 40, 2, 0.99, "Shock", 0.15)
 Ziodyne = ElementalAttack("Electric", "Ziodyne", 14, 220, 1, 0.99, "Shock", 0.15)
 #WIND
 Garu = ElementalAttack("Wind", "Garu", 3, 40, 1, 0.99)

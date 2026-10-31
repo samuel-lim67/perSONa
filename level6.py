@@ -69,7 +69,7 @@ def level_6(MainCharacter):
 
 
     input("\n[Press Enter to choose your Persona...]")
-    MainCharacter.character_selector()
+    MainCharacter.character_selector(level6_addcharacters)
 
 
     print("""
@@ -90,13 +90,14 @@ def level_6(MainCharacter):
     MainCharacter.curhp = MainCharacter.maxhp
     MainCharacter.cursp = MainCharacter.maxsp
 
-    for ally in [Yukari_Takeba]:
-        ally.curhp = ally.maxhp
-        ally.cursp = ally.maxsp
+    Yukari_Takeba.curhp = Yukari_Takeba.maxhp
+    Yukari_Takeba.cursp = Yukari_Takeba.maxsp
 
-    for enemy in [Noble_Seeker, Steed_Beast]:
-        enemy.curhp = enemy.maxhp
-        enemy.cursp = enemy.maxsp
+    Noble_Seeker.curhp = Noble_Seeker.maxhp
+    Noble_Seeker.cursp = Noble_Seeker.maxsp
+
+    Steed_Beast.curhp = Steed_Beast.maxhp
+    Steed_Beast.cursp = Steed_Beast.maxsp
 
     combatants = [MainCharacter, Yukari_Takeba, Noble_Seeker, Steed_Beast]
 
