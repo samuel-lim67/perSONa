@@ -1,4 +1,4 @@
-from classes import Player, Skill, Orpheus, Arsene, Izanagi, Cerberus, NPC, Penthesilea, PhysicalAttack, ElementalAttack, Persona, medicine
+from classes import Player, Skill, Orpheus, Arsene, Izanagi, Cerberus, NPC, Penthesilea, PhysicalAttack, ElementalAttack, Persona, medicine, Character
 from battle import battle_loop
 from level1 import level_1
 from level2 import level_2
@@ -10,14 +10,34 @@ from level7 import level_7
 from level8 import level_8
 from level9 import level_9
 from level10 import level_10
-from shop import shop_call
-Makoto = Player(name="Makoto Yuki", maxhp=333, currenthp=333, defense=50, agility=30, maxsp=60, cursp=30, personas=[])
+from shop import shop_call, Bead, Snuff_Bull, SP_Bead, SP_Artifact
+Makoto = Player(name="Makoto Yuki", maxhp=333, currenthp=333, defense=50, agility=30, maxsp=60, cursp=30, personas=[], inventory=[Bead, Snuff_Bull, SP_Bead, SP_Artifact])
 
 starting_characters = [Orpheus, Arsene, Izanagi]
 
+print("""
+    ==================================================
+                    Persona 3 Relaod
+                     Save the World
+    ==================================================
+
+    *In order to prevent a great cataclysm, you must 
+    go through 10 levels of challenges to prove your
+    worth and defeat the source of this malice. *
+
+    *You are apart of a team named SEES tasked with 
+    saving the earth, but you were seperated and must
+    reunite within the dungeon. Your persona will 
+    guide the way.*
+
+    ==================================================
+    """)
+
 def battle_rewards():
     print("You earned 50 gold!")
-    Makoto.coins += 100
+    Makoto.coins += 50
+    Player.battles_won += 1               
+    print("Battles won:", Player.battles_won) 
 
 
 def intermission():
@@ -60,7 +80,8 @@ Coins: {Makoto.coins}""")
             print("Please enter a valid input!")
             continue
           else:
-            print(f"""
+            if 1 <= selection <= len(Makoto.personas):
+              print(f"""
     Persona: {Makoto.personas[selection-1].name}
 Skills: {', '.join(skill.name for skill in Makoto.personas[selection-1].skills)}
 ---------
@@ -71,6 +92,8 @@ Endurance: {Makoto.personas[selection-1].endurance}
 Agility: {Makoto.personas[selection-1].agility}
 Luck: {Makoto.personas[selection-1].luck}
 """)
+            else:
+               print("Please enter a valid input!")
       elif menu == "3":
         Makoto.check_inventory()
       elif menu == "4":
@@ -80,6 +103,7 @@ Luck: {Makoto.personas[selection-1].luck}
         break
       else:
         print("Please enter a valid input!")
+        
 
 
 def main():
@@ -122,6 +146,11 @@ def main():
             print("Start again? Y/N")
             start_over = input()
             if start_over.strip().lower() == "y":
+                Makoto.curhp = Makoto.maxhp
+                Makoto.cursp = Makoto.maxsp
+                Makoto.personas = []
+                Makoto.inventory = []
+                Makoto.coins = 0
                 break
             elif start_over.strip().lower() == "n":
                 return

@@ -10,7 +10,6 @@ Swift_Strike = PhysicalAttack("Strike", "Swift Strike", 0.12, 50, 4, 0.90, 0.05)
 Bufula = ElementalAttack("Ice", "Bufula", 8, 100, 1, 0.99, "Freeze", 0.10)
 Mabufula = ElementalAttack("Ice", "Mabufula", 14, 80, 4, 0.99, "Freeze", 0.08)
 
-
 # PERSONAS
 Castor = Persona("Castor", [Fatal_End, Blade_of_Fury, Heat_Wave], {"Strike": "resist"}, 30, 14, 24, 18, 14)
 Castor.arcana = "Hierophant"
@@ -26,9 +25,9 @@ King_Frost.arcana = "Emperor"
 Makoto_Yuki = NPC("Makoto Yuki", 150, 150, 20, 30, 100, 100, "Ally", [Izanagi, Arsene])
 Yukari_Takeba = NPC("Yukari Takeba", 150, 150, 15, 30, 100, 100, "Ally", [Arsene, Penthesilea])
 
-Calm_Basalt = NPC("Calm Basalt", 200, 200, 15, 30, 80, 80, "Enemy", [Castor])
-Raging_Facade = NPC("Raging Facade", 200, 200, 20, 30, 80, 80, "Enemy", [Zouchouten])
-Intrepid_Knight = NPC("Intrepid Knight", 450, 450, 25, 30, 150, 150, "Enemy", [King_Frost])
+Calm_Basalt = NPC("Calm Basalt", 50, 50, 15, 30, 80, 80, "Enemy", [Castor])
+Raging_Facade = NPC("Raging Facade", 50, 50, 20, 30, 80, 80, "Enemy", [Zouchouten])
+Intrepid_Knight = NPC("Intrepid Knight", 100, 100, 25, 30, 150, 150, "Enemy", [King_Frost])
 
 
 # LEVEL 5 PERSONA SELECTION

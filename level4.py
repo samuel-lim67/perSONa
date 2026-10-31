@@ -12,7 +12,6 @@ Power_Slash = PhysicalAttack("Slash", "Power Slash", 0.1, 80, 1, 0.9, 0.10)
 Agidyne = ElementalAttack("Fire", "Agidyne", 14, 220, 1, 0.99)
 Deathbound = PhysicalAttack("Slash", "Deathbound", 0.25, 130, 4, 0.9, 0.05)
 
-
 # PERSONAS
 Venus_Eagle = Persona("Venus Eagle", [Slash_Attack, Power_Slash], {"Slash": "resist", "Electric": "weak"}, 12, 18, 10, 24, 12)
 Venus_Eagle.arcana = "Lovers"
@@ -25,13 +24,13 @@ Surt.arcana = "Emperor"
 
 
 # COMBATANTS
-MakotoYuki = NPC(name="Makoto Yuki", maxhp=150, currenthp=150, defense=20, agility=30, maxsp=100, cursp=100, classification="Ally", personas=[Izanagi])
+MakotoYuki = NPC(name="Makoto Yuki", maxhp=50, currenthp=50, defense=20, agility=30, maxsp=100, cursp=100, classification="Ally", personas=[Izanagi])
 
-WildDrive = NPC(name="Wild Drive", maxhp=200, currenthp=200, defense=15, agility=30, maxsp=60, cursp=60, classification="Enemy", personas=[Swift_Axle])
+WildDrive = NPC(name="Wild Drive", maxhp=100, currenthp=100, defense=15, agility=30, maxsp=60, cursp=60, classification="Enemy", personas=[Swift_Axle])
 
-TranceTwins = NPC(name="Trance Twins", maxhp=150, currenthp=150, defense=10, agility=30, maxsp=80, cursp=80, classification="Enemy", personas=[Venus_Eagle])
+TranceTwins = NPC(name="Trance Twins", maxhp=50, currenthp=50, defense=10, agility=30, maxsp=80, cursp=80, classification="Enemy", personas=[Venus_Eagle])
 
-FatalTurret = NPC(name="Fatal Turret", maxhp=250, currenthp=250, defense=20, agility=30, maxsp=120, cursp=120, classification="Enemy", personas=[Surt])
+FatalTurret = NPC(name="Fatal Turret", maxhp=20, currenthp=20, defense=20, agility=30, maxsp=120, cursp=120, classification="Enemy", personas=[Surt])
 
 
 # LEVEL 4

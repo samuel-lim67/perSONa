@@ -20,9 +20,9 @@ Surtr = Persona("Surtr", [Agidyne, Bufudyne, Ziodyne, Garudyne], {"Phys": "resis
 White_Rider = Persona("White Rider", [Gigantomachia, Gods_Hand, Vicious_Strike], {"Phys": "resist", "Curse": "weak"}, 28, 8, 22, 24, 12)
 
 # COMBATANTS
-Yukari_Takeba = NPC("Yukari Takeba", 150, 150, 15, 30, 100, 100, "Ally", [Penthesilea])
-Noble_Seeker = NPC("Noble Seeker", 380, 380, 15, 30, 240, 240, "Enemy", [Surtr])
-Steed_Beast = NPC("Steed Beast", 600, 600, 20, 30, 80, 80, "Enemy", [White_Rider])
+Yukari_Takeba = NPC("Yukari Takeba", 100, 100, 15, 30, 100, 100, "Ally", [Penthesilea])
+Noble_Seeker = NPC("Noble Seeker", 70, 70, 15, 30, 240, 240, "Enemy", [Surtr])
+Steed_Beast = NPC("Steed Beast", 70, 70, 20, 30, 80, 80, "Enemy", [White_Rider])
 
 level6_addcharacters = [Surtr, White_Rider]
 
