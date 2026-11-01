@@ -70,15 +70,19 @@ def level_3(MainCharacter):
 
     MainCharacter.curhp = MainCharacter.maxhp
     MainCharacter.cursp = MainCharacter.maxsp
+    MainCharacter.status_effect = None
 
     Yukari_Takeba.curhp = Yukari_Takeba.maxhp
     Yukari_Takeba.cursp = Yukari_Takeba.maxsp
+    Yukari_Takeba.status_effect = None
 
     Dancing_Hand.curhp = Dancing_Hand.maxhp
     Dancing_Hand.cursp = Dancing_Hand.maxsp
+    Dancing_Hand.status_effect = None
 
     Avian_Grandmaster.curhp = Avian_Grandmaster.maxhp
     Avian_Grandmaster.cursp = Avian_Grandmaster.maxsp
+    Dancing_Hand.status_effect = None
 
     combatants = [MainCharacter, Yukari_Takeba, Dancing_Hand, Avian_Grandmaster]
     status = battle_loop(combatants)

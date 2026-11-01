@@ -55,10 +55,12 @@ def level_10(MainCharacter):
     # Restore the main character
     MainCharacter.curhp = MainCharacter.maxhp
     MainCharacter.cursp = MainCharacter.maxsp
+    MainCharacter.status_effect = None
 
     # Reset the final enemy
     Hastur.curhp = Hastur.maxhp
     Hastur.cursp = Hastur.maxsp
+    Hastur.status_effect = None
 
     combatants = [MainCharacter, Hastur]
 

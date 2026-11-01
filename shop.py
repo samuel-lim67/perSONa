@@ -1,16 +1,23 @@
 from classes import Item, Player, add_item
 
 
-small_medicine = Item("Small Medicine",1,"health",15,0,30)
-medium_medicine = Item("Medium Medicine",1,"health",30,0,60)
-large_medicine = Item("Large Medicine",1,"health",45,0,100)
+small_medicine = Item("Small Medicine",1,"health",30,0,30)
+medium_medicine = Item("Medium Medicine",1,"health",50,0,60)
+large_medicine = Item("Large Medicine",1,"health",100,0,100)
 Bead = Item("Bead", 1, "health", 9999, 0, 300)
 Snuff_Bull = Item("Snuff Bull", 1, "sp", 30, 0, 60)
 SP_Bead = Item("SP Bead", 1, "sp", 50, 0, 100)
 SP_Artifact = Item("SP Artifact", 1, "sp", 100, 0, 100)
+Emberstone = Item("Emberstone", 1, "damage", 120, 0, 50, "Fire")
+Frost_Shard = Item("Frost Shard", 1, "damage", 120, 0, 50, "Ice")
+Volt_Crystal = Item("Volt Crystal", 1, "damage", 120, 0, 50, "Electric")
+Gale_Feather = Item("Gale Feather", 1, "damage", 120, 0, 50, "Wind")
+Radiant_Pearl = Item("Radiant Pearl", 1, "damage", 120, 0, 50, "Light")
+Umbral_Orb = Item("Umbral Orb", 1, "damage", 120, 0, 50, "Dark")
+Astral_Core = Item("Astral Core", 1, "damage", 120, 0, 50, "Almighty")
 
 
-shop_items = [small_medicine, medium_medicine, large_medicine, Bead, Snuff_Bull, SP_Bead, SP_Artifact]
+shop_items = [small_medicine, medium_medicine, large_medicine, Bead, Snuff_Bull, SP_Bead, SP_Artifact, Emberstone, Frost_Shard, Volt_Crystal, Gale_Feather, Radiant_Pearl, Umbral_Orb, Astral_Core]
 
 def shop_display():
     print(r"""
@@ -46,6 +53,7 @@ Item: {item.name}
 Cost: {item.price}
 Type: {item.type}
 Effect: {item.effect}
+Element: {item.element}
 """)
                 continue
             elif selection == (len(shop_items)+1):

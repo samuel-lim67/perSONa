@@ -29,9 +29,11 @@ def level_1(MainCharacter):
     # Reset HP and SP
     MainCharacter.curhp = MainCharacter.maxhp
     MainCharacter.cursp = MainCharacter.maxsp
+    MainCharacter.status_effect = None
 
     Brave_Hand.curhp = Brave_Hand.maxhp
     Brave_Hand.cursp = Brave_Hand.maxsp
+    Brave_Hand.status_effect = None
 
     combatants = [MainCharacter, Brave_Hand]
 

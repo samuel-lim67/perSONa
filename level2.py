@@ -61,12 +61,15 @@ def level_2(MainCharacter):
 
     MainCharacter.curhp = MainCharacter.maxhp
     MainCharacter.cursp = MainCharacter.maxsp
+    MainCharacter.status_effect = None
 
     Crying_Tablet.curhp = Crying_Tablet.maxhp
     Crying_Tablet.cursp = Crying_Tablet.maxsp
+    Crying_Tablet.status_effect = None
 
     Phantom_Mage.curhp = Phantom_Mage.maxhp
     Phantom_Mage.cursp = Phantom_Mage.maxsp
+    Phantom_Mage.status_effect = None
 
     combatants = [MainCharacter, Crying_Tablet, Phantom_Mage]
 

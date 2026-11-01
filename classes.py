@@ -40,12 +40,15 @@ def npc_target_selector(targets):
     return random.choice(targets_list)
 
 def calculate_damage(skill, persona, target_persona, enemy):
-    if isinstance(skill, PhysicalAttack):
-        offense = persona.strength
-    elif isinstance(skill, ElementalAttack):
-        offense = persona.magic
+    if not persona:
+        offense = 1
     else:
-        return 0, "No effect."
+        if isinstance(skill, PhysicalAttack):
+            offense = persona.strength
+        elif isinstance(skill, ElementalAttack):
+            offense = persona.magic
+        else:
+            return 0, "No effect."
     damage = 2 * math.sqrt(skill.effect * 15 * offense / enemy.defense)
     affinity = target_persona.affinity.get(skill.element, "neutral")
     effectivness = "It was normal effectiveness."
@@ -61,6 +64,10 @@ def calculate_damage(skill, persona, target_persona, enemy):
     elif affinity == "absorb":
         absorb_logic(skill, damage, target_persona, enemy)
         return None
+
+    if enemy.guard == True:
+        damage *= 0.85
+        return round(damage), effectivness
 
     return round(damage), effectivness
 
@@ -133,6 +140,10 @@ class Skill:
         self.targets = targets
         self.accuracy = accuracy
 
+        self.sideeffecttype = sideeffecttype
+        self.sideeffectchance = sideeffectchance
+
+
 class PhysicalAttack(Skill):
     def __init__(self, element, name, cost, effect, targets, accuracy, criticalchance):
         super().__init__(element, name, cost, effect, targets, accuracy)
@@ -145,7 +156,7 @@ class ElementalAttack(Skill):
 
 
 class Character:
-    def __init__(self, name, maxhp, currenthp, defense, agility, maxsp, cursp, personas = None, status_effect = None):
+    def __init__(self, name, maxhp, currenthp, defense, agility, maxsp, cursp, personas = None, status_effect = None, guard = False):
         self.name = name
         self.maxhp = maxhp
         self.curhp = currenthp
@@ -157,6 +168,7 @@ class Character:
         self.status_effect = status_effect
 
         self.knocked_down = False
+        self.guard = guard
 
     def use_skill(self, skill):
         cost = skill.cost
@@ -221,7 +233,8 @@ class Player(Character):
         self.inventory = inventory if inventory is not None else []
         self.coins = coins
 
-    def item_effect(self, item):
+    def item_effect(self, item, enemies):
+        persona = False
         if item.type == "health":
             if self.curhp == self.maxhp:
                 print("It failed!")
@@ -248,8 +261,32 @@ class Player(Character):
                     self.cursp += healing
                     print(f"{self.name} used {item.name} and healed {healing} SP")
                 self.consume_item(item)
-
-
+        elif item.type == "damage":
+            if enemies == None:
+                print("Can only be used in battle!")
+                return
+            else:
+                if not alive_characters(enemies):
+                    return True
+                else:
+                    target = target_selector(enemies)
+                    if target is None:
+                        return True
+                    else:
+                        target_persona, enemy = target
+                        damage_calculated = calculate_damage(item, persona, target_persona, enemy)
+                        if not damage_calculated:
+                            return True
+                        else:
+                            damage, effectiveness = damage_calculated
+                            self.battle_damage_display(item, target_persona, enemy, damage, effectiveness)
+                            extra_turn = check_effectiveness(effectiveness, enemy)
+                            self.consume_item(item)
+                            if extra_turn:
+                                return True
+                            else:
+                                return False
+        return False
 
     def consume_item(self, item):
         item.quantity -= 1
@@ -335,12 +372,13 @@ class Player(Character):
 
             elif choice == "3":
                 print(f"{self.name} takes a defensive stance! (Guard active)")
+                self.guard = True
                 turn_ = False
                 # add guard logic here (e.g., temporary defense boost and calculation)
 
             elif choice == "4":
                 #view inventory
-                turn_ = self.check_inventory()
+                turn_ = self.check_inventory(enemies)
             else:
                 print("Please enter a valid input!")
 
@@ -368,7 +406,7 @@ class Player(Character):
                         print("Please enter a valid input!")
                         continue
 
-    def check_inventory(self):
+    def check_inventory(self, enemies = None):
         if not self.inventory:
             print("Inventory empty!")
             return True
@@ -387,8 +425,11 @@ class Player(Character):
                         while True:
                             confirm = input(f"Use {self.inventory[selection-1].name}? Y/N\n")
                             if confirm.strip().lower() == "y":
-                                self.item_effect(self.inventory[selection-1])
-                                return False
+                                if self.inventory[selection-1].type == "damage":
+                                    return self.item_effect(self.inventory[selection-1], enemies)
+                                else:
+                                    self.item_effect(self.inventory[selection-1], enemies)
+                                    return False
                             elif confirm.strip().lower() == "n":
                                 print("Returning...")
                                 break
@@ -454,35 +495,27 @@ class NPC(Character):
         while turn_:
             print(f"\n--- {self.name}'s Turn ---")
             print(f"Current Persona: {persona.name}")
-            skill_to_use = random.choice(persona.skills)  # /////////add an algorithm for this
-            if self.use_skill(skill_to_use):
-                if skill_to_use.targets < 4:
-                    for _ in range(skill_to_use.targets):
-                        if not alive_characters(targets):
-                            break
-                        target_persona, enemy = npc_target_selector(targets)
-                        if self.accuracy_check(skill_to_use, enemy):
-                            damage, effectiveness = calculate_damage(skill_to_use, persona, target_persona, enemy)
-                            self.battle_damage_display(skill_to_use, target_persona, enemy, damage, effectiveness)
-                            extra_turn = check_effectiveness(effectiveness, enemy)
-                            if extra_turn:
-                                turn_ = True
-                            else:
-                                turn_ = False
-                        else:
-                            print(f"{skill_to_use.name} missed!")
-                            turn_ = False
-                    self.cost_calculator(skill_to_use)
-                else:
-                    for target in targets:
-                        if target.curhp <= 0:
-                            continue
+            choice = random.choice([1,2,3])
+            if choice == 1:
+                if not alive_characters(targets):
+                    break
+                target_persona, enemy = npc_target_selector(targets)
+                enemy.curhp -= 25
+                print(f"{self.name} used a basic attack on {enemy.name} for 25 damage!")
+                turn_ = False
+            elif choice == 2:
 
-                        for target_persona in target.personas:
-                            if self.accuracy_check(skill_to_use, target):
-                                damage, effectiveness = calculate_damage(skill_to_use, persona, target_persona, target)
-                                self.battle_damage_display(skill_to_use, target_persona, target, damage, effectiveness)
-                                extra_turn = check_effectiveness(effectiveness, target)
+                skill_to_use = random.choice(persona.skills)  # /////////add an algorithm for this
+                if self.use_skill(skill_to_use):
+                    if skill_to_use.targets < 4:
+                        for _ in range(skill_to_use.targets):
+                            if not alive_characters(targets):
+                                break
+                            target_persona, enemy = npc_target_selector(targets)
+                            if self.accuracy_check(skill_to_use, enemy):
+                                damage, effectiveness = calculate_damage(skill_to_use, persona, target_persona, enemy)
+                                self.battle_damage_display(skill_to_use, target_persona, enemy, damage, effectiveness)
+                                extra_turn = check_effectiveness(effectiveness, enemy)
                                 if extra_turn:
                                     turn_ = True
                                 else:
@@ -490,10 +523,33 @@ class NPC(Character):
                             else:
                                 print(f"{skill_to_use.name} missed!")
                                 turn_ = False
-                    self.cost_calculator(skill_to_use)
+                        self.cost_calculator(skill_to_use)
+                    else:
+                        for target in targets:
+                            if target.curhp <= 0:
+                                continue
 
-            else:
-                print("Not enough SP!")
+                            for target_persona in target.personas:
+                                if self.accuracy_check(skill_to_use, target):
+                                    damage, effectiveness = calculate_damage(skill_to_use, persona, target_persona, target)
+                                    self.battle_damage_display(skill_to_use, target_persona, target, damage, effectiveness)
+                                    extra_turn = check_effectiveness(effectiveness, target)
+                                    if extra_turn:
+                                        turn_ = True
+                                    else:
+                                        turn_ = False
+                                else:
+                                    print(f"{skill_to_use.name} missed!")
+                                    turn_ = False
+                        self.cost_calculator(skill_to_use)
+
+                else:
+                    print("Not enough SP!")
+
+            elif choice == 3:
+                print(f"{self.name} takes a defensive stance! (Guard active)")
+                self.guard = True
+                turn_ = False
 
 class Persona:
     def __init__(self, name, skills, affinity, strength, magic, endurance, agility, luck):
@@ -511,13 +567,14 @@ class Persona:
         return pair[0].agility
 
 class Item:
-    def __init__(self, name, quantity, stat_type , effect, duration,price):
+    def __init__(self, name, quantity, stat_type , effect, duration,price, element = None):
         self.name = name
         self.quantity = quantity
         self.type = stat_type
         self.effect = effect
         self.duration = duration
         self.price = price
+        self.element = element
 
 shop_items = {"SP Bead": Item("SP Bead",1,"sp",50,0,25),
               "Guard Charm": Item("Guard Charm",1,"defense",50,2,35)}

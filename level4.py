@@ -69,19 +69,19 @@ def level_4(MainCharacter):
     # Restore the main character
     MainCharacter.curhp = MainCharacter.maxhp
     MainCharacter.cursp = MainCharacter.maxsp
-
-    # Reset combatants for a fresh battle
-    MakotoYuki.curhp = MakotoYuki.maxhp
-    MakotoYuki.cursp = MakotoYuki.maxsp
+    MainCharacter.status_effect = None
 
     WildDrive.curhp = WildDrive.maxhp
     WildDrive.cursp = WildDrive.maxsp
+    WildDrive.status_effect = None
 
     TranceTwins.curhp = TranceTwins.maxhp
     TranceTwins.cursp = TranceTwins.maxsp
+    TranceTwins.status_effect = None
 
     FatalTurret.curhp = FatalTurret.maxhp
     FatalTurret.cursp = FatalTurret.maxsp
+    FatalTurret.status_effect = None
 
     combatants = [MainCharacter, WildDrive, TranceTwins, FatalTurret]
 

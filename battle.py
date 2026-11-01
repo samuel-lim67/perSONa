@@ -59,6 +59,7 @@ def battle_loop(combatants):
 
             if type(user) == Player:
                 # PLAYER TURN
+                user.guard = False
                 if not alive_characters(enemies):
                     print(f"\n🎉 Victory! All enemies have been defeated!")
                     battle_active = False
@@ -74,6 +75,7 @@ def battle_loop(combatants):
 
             else:
                 if user.classification == "Enemy":
+                    user.guard = False
                     # ENEMY TURN
                     if not alive_characters(allies):
                         print(f"\n💀 Game Over... your whole party has fainted.")
@@ -87,6 +89,7 @@ def battle_loop(combatants):
                         battle_active = False
                         return "Lose"
                 elif user.classification == "Ally":
+                    user.guard = False
                     # ALLY TURN
 
                     if not alive_characters(enemies):

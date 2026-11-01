@@ -1,4 +1,4 @@
-from classes import Player, Skill, Orpheus, Arsene, Izanagi, Cerberus, NPC, Penthesilea, PhysicalAttack, ElementalAttack, Persona, medicine, Character
+from classes import Player, Skill, Orpheus, Arsene, Izanagi, Cerberus, NPC, Penthesilea, PhysicalAttack, ElementalAttack, Persona, medicine, Character, Item
 from battle import battle_loop
 from level1 import level_1
 from level2 import level_2
@@ -35,7 +35,7 @@ print("""
 
 def battle_rewards():
     print("You earned 50 gold!")
-    Makoto.coins += 50
+    Makoto.coins += 100
     Player.battles_won += 1               
     print("Battles won:", Player.battles_won) 
 

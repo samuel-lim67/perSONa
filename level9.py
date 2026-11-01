@@ -81,12 +81,15 @@ def level_9(MainCharacter):
 
     MainCharacter.curhp = MainCharacter.maxhp
     MainCharacter.cursp = MainCharacter.maxsp
+    MainCharacter.status_effect = None
 
     Jail_Guard.curhp = Jail_Guard.maxhp
     Jail_Guard.cursp = Jail_Guard.maxsp
+    Jail_Guard.status_effect = None
 
     Carnal_Snake.curhp = Carnal_Snake.maxhp
     Carnal_Snake.cursp = Carnal_Snake.maxsp
+    Carnal_Snake.status_effect = None
 
     combatants = [MainCharacter, Jail_Guard, Carnal_Snake]
     status = battle_loop(combatants)

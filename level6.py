@@ -89,15 +89,19 @@ def level_6(MainCharacter):
 
     MainCharacter.curhp = MainCharacter.maxhp
     MainCharacter.cursp = MainCharacter.maxsp
+    MainCharacter.status_effect = None
 
     Yukari_Takeba.curhp = Yukari_Takeba.maxhp
     Yukari_Takeba.cursp = Yukari_Takeba.maxsp
+    Yukari_Takeba.status_effect = None
 
     Noble_Seeker.curhp = Noble_Seeker.maxhp
     Noble_Seeker.cursp = Noble_Seeker.maxsp
+    Noble_Seeker.status_effect = None
 
     Steed_Beast.curhp = Steed_Beast.maxhp
     Steed_Beast.cursp = Steed_Beast.maxsp
+    Steed_Beast.status_effect = None
 
     combatants = [MainCharacter, Yukari_Takeba, Noble_Seeker, Steed_Beast]
 

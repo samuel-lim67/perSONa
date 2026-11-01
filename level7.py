@@ -76,21 +76,27 @@ def level_7(MainCharacter):
 
     MainCharacter.curhp = MainCharacter.maxhp
     MainCharacter.cursp = MainCharacter.maxsp
+    MainCharacter.status_effect = None
 
     yukari_takeba.curhp = yukari_takeba.maxhp
     yukari_takeba.cursp = yukari_takeba.maxsp
+    yukari_takeba.status_effect = None
 
     junpei_iori.curhp = junpei_iori.maxhp
     junpei_iori.cursp = junpei_iori.maxsp
+    junpei_iori.status_effect = None
 
     Judgment_Sword.curhp = Judgment_Sword.maxhp
     Judgment_Sword.cursp = Judgment_Sword.maxsp
+    Judgment_Sword.status_effect = None
 
     Decaying_Titan.curhp = Decaying_Titan.maxhp
     Decaying_Titan.cursp = Decaying_Titan.maxsp
+    Decaying_Titan.status_effect = None
 
     Basalt_Statue.curhp = Basalt_Statue.maxhp
     Basalt_Statue.cursp = Basalt_Statue.maxsp
+    Basalt_Statue.status_effect = None
 
     combatants = [MainCharacter, yukari_takeba, junpei_iori, Basalt_Statue, Judgment_Sword, Decaying_Titan]
 
