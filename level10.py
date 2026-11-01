@@ -3,11 +3,11 @@ from battle import battle_loop
 
 
 # SKILLS
-myriad_arrows = PhysicalAttack("Pierce", "Myriad Arrows", 0.19, 30, 4, 0.88, 0.05)
-primal_force = PhysicalAttack("Pierce", "Primal Force", 0.21, 25, 1, 0.95, 0.05)
-maralagidyne = ElementalAttack("Fire", "Maralagidyne", 32, 35, 4, 0.9)
+myriad_arrows = PhysicalAttack("Pierce", "Myriad Arrows", 0.19, 40, 4, 0.88, 0.05)
+primal_force = PhysicalAttack("Pierce", "Primal Force", 0.21, 40, 1, 0.95, 0.05)
+maralagidyne = ElementalAttack("Fire", "Maralagidyne", 32, 40, 4, 0.9)
 # Spirit Drain is TBD until support skills are implemented
-heat_wave = PhysicalAttack("Strike", "Heat Wave", 0.20, 30, 4, 0.9, 0.1)
+heat_wave = PhysicalAttack("Strike", "Heat Wave", 0.20, 40, 4, 0.9, 0.1)
 
 
 # PERSONA
@@ -15,7 +15,7 @@ Mara = Persona("Mara", [myriad_arrows, primal_force, maralagidyne, heat_wave], {
 
 
 # ENEMY
-Hastur = NPC("Hastur", 1500, 1500, 20, 15, 500, 500, "Enemy", [Mara], status_effect=None)
+Hastur = NPC("Hastur", 3000, 3000, 20, 15, 500, 500, "Enemy", [Mara], status_effect=None)
 
 
 # LEVEL 10
