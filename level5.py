@@ -86,30 +86,25 @@ def level_5(MainCharacter):
     # Restore the main character
     MainCharacter.curhp = MainCharacter.maxhp
     MainCharacter.cursp = MainCharacter.maxsp
-
-    # Reset allies and enemies
-    Makoto_Yuki.curhp = Makoto_Yuki.maxhp
-    Makoto_Yuki.cursp = Makoto_Yuki.maxsp
+    MainCharacter.status_effect = None
 
     Yukari_Takeba.curhp = Yukari_Takeba.maxhp
     Yukari_Takeba.cursp = Yukari_Takeba.maxsp
+    MainCharacter.status_effect = None
 
     Calm_Basalt.curhp = Calm_Basalt.maxhp
     Calm_Basalt.cursp = Calm_Basalt.maxsp
+    Calm_Basalt.status_effect = None
 
     Raging_Facade.curhp = Raging_Facade.maxhp
     Raging_Facade.cursp = Raging_Facade.maxsp
+    Raging_Facade.status_effect = None
 
     Intrepid_Knight.curhp = Intrepid_Knight.maxhp
     Intrepid_Knight.cursp = Intrepid_Knight.maxsp
+    Intrepid_Knight.status_effect = None
 
-    combatants = [
-        MainCharacter,
-        Yukari_Takeba,
-        Calm_Basalt,
-        Raging_Facade,
-        Intrepid_Knight
-    ]
+    combatants = [MainCharacter,Yukari_Takeba,Calm_Basalt,Raging_Facade,Intrepid_Knight]
 
     status = battle_loop(combatants)
 

@@ -1,4 +1,5 @@
 from classes import Character, Player, Persona, NPC
+import os
 import random
 
 def alive_characters(combatants):
@@ -33,6 +34,7 @@ def battle_loop(combatants):
     battle_active = True
     turn_counter = 1
     while battle_active:
+        os.system('cls' if os.name == 'nt' else 'clear')
         print(f"\n=================== TURN {turn_counter} ===================")
         print("===ALLIES===")
         for ally in allies:
@@ -57,6 +59,7 @@ def battle_loop(combatants):
 
             if type(user) == Player:
                 # PLAYER TURN
+                user.guard = False
                 if not alive_characters(enemies):
                     print(f"\n🎉 Victory! All enemies have been defeated!")
                     battle_active = False
@@ -72,6 +75,7 @@ def battle_loop(combatants):
 
             else:
                 if user.classification == "Enemy":
+                    user.guard = False
                     # ENEMY TURN
                     if not alive_characters(allies):
                         print(f"\n💀 Game Over... your whole party has fainted.")
@@ -85,19 +89,20 @@ def battle_loop(combatants):
                         battle_active = False
                         return "Lose"
                 elif user.classification == "Ally":
+                    user.guard = False
                     # ALLY TURN
 
                     if not alive_characters(enemies):
                         print(f"\n🎉 Victory! All enemies have been defeated!")
                         battle_active = False
-                        return "Lose"
+                        return "Win"
 
                     user.npc_turn(persona, enemies)
 
                     if not alive_characters(enemies):
                         print(f"\n🎉 Victory! All enemies have been defeated!")
                         battle_active = False
-                        return "Lose"
+                        return "Win"
 
         turn_counter += 1
     return None

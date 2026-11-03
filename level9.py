@@ -2,8 +2,8 @@ from classes import Persona, NPC, ElementalAttack, PhysicalAttack
 from battle import battle_loop
 
 # SKILLS
-Cleave = PhysicalAttack("Slash", "Cleave", 3, 30, 1, 0.95, 0.12)
-Assault_Dive = PhysicalAttack("Strike", "Assault Dive", 8, 55, 1, 0.90, 0.12)
+Cleave = PhysicalAttack("Slash", "Cleave", 0.12, 30, 1, 0.95, 0.12)
+Assault_Dive = PhysicalAttack("Strike", "Assault Dive", 0.12, 55, 1, 0.90, 0.12)
 
 Garu = ElementalAttack("Wind", "Garu", 3, 25, 1, 0.95, )
 Magaru = ElementalAttack("Wind", "Magaru", 6, 20, 4, 0.90, )
@@ -81,6 +81,15 @@ def level_9(MainCharacter):
 
     MainCharacter.curhp = MainCharacter.maxhp
     MainCharacter.cursp = MainCharacter.maxsp
+    MainCharacter.status_effect = None
+
+    Jail_Guard.curhp = Jail_Guard.maxhp
+    Jail_Guard.cursp = Jail_Guard.maxsp
+    Jail_Guard.status_effect = None
+
+    Carnal_Snake.curhp = Carnal_Snake.maxhp
+    Carnal_Snake.cursp = Carnal_Snake.maxsp
+    Carnal_Snake.status_effect = None
 
     combatants = [MainCharacter, Jail_Guard, Carnal_Snake]
     status = battle_loop(combatants)
